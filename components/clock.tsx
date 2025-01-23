@@ -1,7 +1,9 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
 
 const Clock = () => {
-  const [time, setTime] = useState(new Date());
+    const [time, setTime] = useState<Date | null>(null); // Start with null
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -22,8 +24,8 @@ const Clock = () => {
 
   return (
     <div className="font-medium text-2xl mb-10">
-      {formatTime(time)}
-    </div>
+      {time ? formatTime(time) : "Loading..."}
+      </div>
   );
 };
 

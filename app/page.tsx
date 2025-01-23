@@ -24,10 +24,10 @@ export default function Page() {
       <Image
         src="/mark_logo.png"
         alt="mark logo"
-        className="w-1/4 h-auto cursor-pointer"
+        className="w-[300px] sm:w-[400px] md:w-[450px] lg:w-[500px] h-auto cursor-pointer"
         width={0}
         height={0}
-        sizes="25vw"
+        sizes="(max-width: 640px) 300px, (max-width: 768px) 400px, (max-width: 1024px) 500px, 600px"
         onMouseEnter={() => {
           setCrosshairColor("red");
           setCursorOpacity(1);
@@ -38,7 +38,6 @@ export default function Page() {
         }}
       />
       <h1 className="text-black text-1xl font-light pb-10">COMING SOON</h1>
-      
     </div>
   );
 }
