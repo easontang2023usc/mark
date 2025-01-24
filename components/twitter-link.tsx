@@ -13,7 +13,7 @@ type XLinkProps = {
         style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
       >
         <Image
-          src="https://cdn.simpleicons.org/x/black"
+          src="/X_logo.svg"
           alt="X Logo"
           width={24}
           height={24}

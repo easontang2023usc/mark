@@ -6,6 +6,7 @@ import Crosshair from "@/components/crosshair";
 import CursorImage from "@/components/cursor-image";
 import TwitterLink from "@/components/twitter-link";
 import { InputWithButton } from "@/components/waitlist";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export default function Page() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -20,6 +21,7 @@ export default function Page() {
       {/* Interactive Elements */}
       <Crosshair containerRef={containerRef} color={crosshairColor} />
       <CursorImage imageUrl="/mark_demo.png" size={80} opacity={cursorOpacity}/>
+      <SpeedInsights/>
 
       {/* Hero Section */}
       <div className="flex flex-col items-center px-4 w-full max-w-[500px] mx-auto">
