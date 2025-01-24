@@ -13,13 +13,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const generateViewport = () => ({
-  width: "device-width",
-  initialScale: 1,
-});
-
-export const generateThemeColor = () => "#ffffff";
-
+// Define metadata object directly in the layout
 export const metadata: Metadata = {
   title: "Mark | AI Hardware bookmark for Knowledge Retention",
   description:
@@ -34,6 +28,8 @@ export const metadata: Metadata = {
     "Physical AI Device",
   ],
   authors: [{ name: "Mark Engineering", url: "https://mark.engineering" }],
+  viewport: "width=device-width, initial-scale=1", // This can stay here
+  themeColor: "#ffffff", // This can stay here
   openGraph: {
     title: "Mark One | bookmark that Transforms Knowledge Retention",
     description:
@@ -42,7 +38,7 @@ export const metadata: Metadata = {
     siteName: "Mark",
     images: [
       {
-        url: "https://mark.engineering/mark_demo.png", // Replace with your actual image URL
+        url: "https://mark.engineering/mark_demo.png",
         width: 1200,
         height: 630,
         alt: "Mark One - AI Hardware Bookmark",
@@ -56,7 +52,7 @@ export const metadata: Metadata = {
     title: "Mark One | AI Hardware for Knowledge Retention",
     description:
       "Mark One by Mark: A premium AI hardware bookmark revolutionizing how we retain knowledge. Built with sleek aluminum and cutting-edge AI.",
-    images: ["https://mark.engineering/mark_demo.png"], // Replace with your actual image URL
+    images: ["https://mark.engineering/mark_demo.png"],
   },
 };
 
