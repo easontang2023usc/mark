@@ -5,6 +5,7 @@ import Image from "next/image";
 import Crosshair from "@/components/crosshair";
 import CursorImage from "@/components/cursor-image";
 import Clock from "@/components/clock";
+import TwitterLink from "@/components/twitter-link";
 
 export default function Page() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,6 +39,10 @@ export default function Page() {
         }}
       />
       <h1 className="text-black text-1xl font-light pb-10">COMING SOON</h1>
+      <div className="flex flex-row gap-24">
+      <TwitterLink username="easontang23"/>
+      <TwitterLink username="Henryyinn"/>
+      </div>
     </div>
   );
 }
