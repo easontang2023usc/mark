@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {supabase} from "@/lib/supabaseClient"
+import { supabase } from "@/lib/supabaseClient";
 
 export function InputWithButton() {
   const [email, setEmail] = useState("");
@@ -26,14 +26,14 @@ export function InputWithButton() {
         setMessage("Successfully signed up! 🎉");
         setEmail(""); // Clear the input field
       }
-    } catch (err) {
+    } catch {
       setMessage("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const validateEmail = (email:string) => {
+  const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };

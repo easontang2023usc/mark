@@ -4,7 +4,6 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Crosshair from "@/components/crosshair";
 import CursorImage from "@/components/cursor-image";
-import Clock from "@/components/clock";
 import TwitterLink from "@/components/twitter-link";
 import { InputWithButton } from "@/components/waitlist";
 
