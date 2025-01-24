@@ -21,7 +21,6 @@ export default function Page() {
       {/* Interactive Elements */}
       <Crosshair containerRef={containerRef} color={crosshairColor} />
       <CursorImage imageUrl="/mark_demo.png" size={80} opacity={cursorOpacity}/>
-      <Clock/>
 
       {/* Hero Section */}
       <div className="flex flex-col items-center px-4 w-full max-w-[500px] mx-auto">
@@ -42,11 +41,11 @@ export default function Page() {
           }}
         />
         
-        <h1 className="text-1xl md:text-2xl font-medium text-gray-800 mt-2 mb-4 text-center">
+        <h1 className="text-1xl md:text-2xl font-bold text-gray-800 mb-4 text-center">
           Transform how you retain knowledge
         </h1>
         
-        <p className="text-xs md:text-lg font-light text-gray-600 mt-6 mb-10">
+        <p className="text-xs md:text-lg font-light text-gray-600 mt-4 mb-14">
           COMING SOON
         </p>
 
