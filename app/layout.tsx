@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Mark | Redefining the way we retain knowledge",
   description:
-    "Mark: A transformative AI hardware bookmark designed to enhance knowledge retention with elegance and functionality.",
+    "AI bookmark designed to enhance knowledge retention.",
   keywords: [
     "Mark One",
     "AI Hardware",
