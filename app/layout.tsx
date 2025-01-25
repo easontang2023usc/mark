@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     siteName: "Mark",
     images: [
       {
-        url: "https://mark.engineering/mark_demo.png",
+        url: "https://mark.engineering/black_banner.png",
         width: 1200,
         height: 630,
         alt: "Mark One - AI Hardware Bookmark",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     title: "Mark | Redefining the way we retain knowledge",
     description:
       "Premium AI Hardware",
-    images: ["https://mark.engineering/mark_demo.png"],
+    images: ["https://mark.engineering/black_banner.png"],
   },
 };
 
