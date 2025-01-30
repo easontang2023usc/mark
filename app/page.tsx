@@ -1,17 +1,28 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Crosshair from "@/components/crosshair";
 import CursorImage from "@/components/cursor-image";
 import TwitterLink from "@/components/twitter-link";
 import { InputWithButton } from "@/components/waitlist";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export default function Page() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [crosshairColor, setCrosshairColor] = useState("black");
   const [cursorOpacity, setCursorOpacity] = useState(0);
+  const [isLaptop, setIsLaptop] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsLaptop(window.innerWidth >= 1024);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   return (
     <main 
@@ -19,7 +30,7 @@ export default function Page() {
       className="relative min-h-screen bg-gradient-to-b from-white to-gray-50 flex flex-col items-center justify-center "
     >
       {/* Interactive Elements */}
-      <Crosshair containerRef={containerRef} color={crosshairColor} />
+      {isLaptop && <Crosshair containerRef={containerRef} color={crosshairColor} />}
       <CursorImage imageUrl="/mark_demo.png" size={80} opacity={cursorOpacity}/>
       <SpeedInsights/>
 
@@ -33,12 +44,16 @@ export default function Page() {
           height={0}
           sizes="(max-width: 640px) 300px, (max-width: 768px) 400px, (max-width: 1024px) 500px, 600px"
           onMouseEnter={() => {
-            setCrosshairColor("red");
-            setCursorOpacity(1);
+            if (isLaptop) {
+              setCrosshairColor("red");
+              setCursorOpacity(1);
+            }
           }}
           onMouseLeave={() => {
-            setCrosshairColor("black");
-            setCursorOpacity(0);
+            if (isLaptop) {
+              setCrosshairColor("black");
+              setCursorOpacity(0);
+            }
           }}
         />
         
