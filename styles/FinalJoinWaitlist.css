@@ -1,0 +1,33 @@
+/* Final Join Waitlist */
+.final-join-waitlist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  .final-join-waitlist h1 {
+    font-size: 48px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .final-join-waitlist .join-waitlist-button {
+    background-color: #FB6839;
+    border: none;
+    padding: 12px 24px;
+    font-size: 2px;
+    font-weight: 700;
+    border-radius: 8px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+  }
+  
+  .final-join-waitlist .join-waitlist-button:hover {
+    background-color: #e05b32;
+  }
+  

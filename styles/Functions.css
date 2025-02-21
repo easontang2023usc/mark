@@ -1,0 +1,55 @@
+.functions {
+  text-align: center;
+  padding: 50px 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.demo-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.demo-group {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.demo-ui {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.demo-image {
+  max-width: 250px;
+  height: auto;
+}
+
+.demo-text {
+  flex: 1;
+  text-align: left;
+  max-width: 400px;
+}
+
+.small-text-bold {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: left;
+  color: black;
+}
+
+.small-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: gray;
+  text-align: left;
+}

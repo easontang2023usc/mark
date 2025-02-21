@@ -16,6 +16,16 @@ const config: Config = {
   				'sans-serif'
   			]
   		},
+
+		  fontSize: {
+			h1: "3rem", // 48px
+			h2: "2.25rem", // 36px
+			h3: "1.75rem", // 28px
+			body1: "1.125rem", // 18px
+			body2: "1rem", // 16px
+		  },
+
+		  
   		fontWeight: {
   			thin: '100',
   			light: '300',
