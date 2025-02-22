@@ -17,13 +17,13 @@ const DockTabs = ({
   const renderContent = () => {
     switch (activeTab) {
       case "Summary":
-        return { image: "/Mark_Assets/summary.png", text: "Review key takeaways from your latest reading." };
+        return { image: "/Mark_Assets/summary.svg", text: "Review key takeaways from your latest reading." };
       case "Friends":
-        return { image: "/Mark_Assets/friends.png", text: "See what your friends are reading and share insights." };
+        return { image: "/Mark_Assets/friends.svg", text: "See what your friends are reading and share insights." };
       case "Games":
-        return { image: "/Mark_Assets/games.png", text: "Engage in interactive reading challenges and games." };
+        return { image: "/Mark_Assets/games.svg", text: "Engage in interactive reading challenges and games." };
       case "Data":
-        return { image: "/Mark_Assets/data.png", text: "Visualize your reading habits and track progress." };
+        return { image: "/Mark_Assets/Data.svg", text: "Visualize your reading habits and track progress." };
       default:
         return {};
     }
@@ -41,7 +41,7 @@ const DockTabs = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <img src={content.image} alt={activeTab} className="max-w-[105%] mb-4" />
+      <img src={content.image} alt={activeTab} className="max-w-[112%] mt-3"  />
       
     </motion.div>
     

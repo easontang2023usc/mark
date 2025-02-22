@@ -12,18 +12,16 @@ const cards = [
 export default function HowItWorks() {
   return (
     <section className="relative my-16 py-12">
-      {/* Section Title - moved z-index down */}
-      <div className="text-center mb-10 relative z-0">
+      {/* Section Title */}
+      <div className="text-center mb-10">
         <Typography variant="h3">Discover the power of seamless AI</Typography>
         <Typography variant="body1" className="text-neutral-500 mt-2">
           Mark is tailored to your usual reading experience
         </Typography>
       </div>
 
-      {/* Cards Carousel - ensure higher z-index */}
-      <div className="relative z-10">
-        <Carousel items={cards.map((card, i) => <Card key={i} card={card} index={i} />)} />
-      </div>
+      {/* Cards Carousel */}
+      <Carousel items={cards.map((card, i) => <Card key={i} card={card} index={i} />)} />
     </section>
   );
 }

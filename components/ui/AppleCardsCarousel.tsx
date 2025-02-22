@@ -28,42 +28,41 @@ interface CarouselProps {
     currentIndex: 0,
   });
 
-  // StepNumber component remains the same
-const StepNumber = ({ number, isHovered }: { number: number; isHovered: boolean }) => (
-  <Typography 
-    variant="h4" 
-    className={`mr-2 transition-colors duration-300 ${
-      isHovered ? 'text-[#FB6839]' : 'text-neutral-600'
-    }`}
-  >
-    {number}.
-  </Typography>
-);
-
-export const Carousel = ({ items }: CarouselProps) => {
-  return (
-    <CarouselContext.Provider value={{ onCardClose: () => {}, currentIndex: 0 }}>
-      <div className="relative w-full px-4 md:px-0">
-        {/* Responsive container with scroll on mobile */}
-        <div className="flex flex-col md:flex-row md:justify-center gap-12 md:gap-16 overflow-x-auto">
-          {items.map((item, index) => (
-            <motion.div
-              key={"card" + index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 * index }}
-              className="w-full md:w-auto"
-            >
-              {item}
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </CarouselContext.Provider>
+  const StepNumber = ({ number, isHovered }: { number: number; isHovered: boolean }) => (
+    <Typography 
+      variant="h4" 
+      className={`mr-2 transition-colors duration-300 ${
+        isHovered ? 'text-[#FB6839]' : 'text-neutral-600'
+      }`}
+    >
+      {number}.
+    </Typography>
   );
-};
-
-export const Card = ({
+  
+  export const Carousel = ({ items }: CarouselProps) => {
+    return (
+      <CarouselContext.Provider value={{ onCardClose: () => {}, currentIndex: 0 }}>
+        <div className="relative w-full">
+          {/* Increased gap between cards */}
+          <div className="flex justify-center gap-16">
+            {items.map((item, index) => (
+              <motion.div
+                key={"card" + index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 * index }}
+              >
+                {item}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </CarouselContext.Provider>
+    );
+  };
+  
+  
+  export const Card = ({
     card,
     index,
     layout = false,
@@ -78,13 +77,13 @@ export const Card = ({
   
     return (
       <div 
-        className="relative w-full md:w-auto"
+        className="relative"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Text content above the card */}
+        {/* Text content above the card - moved into motion.div for coordinated animation */}
         <motion.div 
-          className="absolute w-full z-30"
+          className="absolute w-full z-20"
           animate={{
             y: isHovered ? -20 : 0
           }}
@@ -93,7 +92,7 @@ export const Card = ({
             ease: "easeInOut"
           }}
         >
-          <div className="text-left mb-2">
+          <div className="text-left mb-4">
             <div className="flex items-center">
               <StepNumber number={index + 1} isHovered={isHovered} />
               <Typography 
@@ -105,7 +104,7 @@ export const Card = ({
             </div>
             <Typography 
               variant="h4" 
-              className="mt-10 transition-colors duration-300 text-base md:text-lg lg:text-xl"
+              className="mt-1 transition-colors duration-300"
             >
               {card.title}
             </Typography>
@@ -122,9 +121,7 @@ export const Card = ({
             duration: 0.3,
             ease: "easeInOut"
           }}
-          className="rounded-3xl bg-gray-100 dark:bg-neutral-900 w-full h-64 
-            md:w-72 md:h-72 lg:w-80 lg:h-[30rem] 
-            overflow-hidden relative z-10 mt-10"
+          className="rounded-3xl bg-gray-100 dark:bg-neutral-900 h-72 w-72 md:h-[30rem] md:w-80 overflow-hidden relative z-10 mt-10"
         >
           <BlurImage
             src={card.src}

@@ -7,7 +7,7 @@ export default function FinalJoinWaitlist() {
     <div className="h-screen w-full flex flex-col items-center justify-center bg-white relative">
       <div className="max-w-2xl mx-auto p-6 text-center">
         {/* Title */}
-        <h1 className="relative z-10 text-3xl md:text-7xl bg-clip-text text-transparent bg-gradient-to-b from-gray-800 to-gray-500 font-bold">
+        <h1 className="relative z-10 text-4xl md:text-6xl font-bold text-gray-800">
           Join the Waitlist
         </h1>
 
@@ -17,13 +17,15 @@ export default function FinalJoinWaitlist() {
         </p>
 
         {/* Email Input & Submit Button */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 mt-6">
+        <div className="flex items-center gap-3 mt-6 bg-gray-100 px-2 py-2 rounded-full shadow-md">
           <input
             type="email"
             placeholder="Enter your email"
-            className="w-full sm:w-96 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 placeholder:text-gray-500 bg-gray-100 text-gray-900"
+            className="flex-grow p-3 border-none rounded-full focus:outline-none bg-transparent text-gray-900 placeholder:text-gray-500"
           />
-          <button className="px-6 py-3 bg-teal-500 text-white font-semibold rounded-lg hover:bg-teal-600 transition duration-200">
+          <button
+            className="px-6 py-3 bg-[#FB6839] text-white font-semibold rounded-full hover:bg-[#E25F33] transition duration-200"
+          >
             Submit
           </button>
         </div>
