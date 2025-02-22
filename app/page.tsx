@@ -62,7 +62,7 @@ export default function Page() {
         </h1>
         
         <p className="text-xs md:text-lg font-light text-gray-600 mt-4 mb-14">
-          COMING SOON
+          COMING SOON. 2/25/2025.
         </p>
 
         {/* Waitlist Section */}
