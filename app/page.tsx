@@ -75,6 +75,7 @@ export default function Page() {
       <footer className="fixed bottom-0 w-ful bg-opacity-90 backdrop-blur-sm py-6">
         <div className="flex justify-center gap-16 md:gap-24">
           <TwitterLink username="easontang23"/>
+          <TwitterLink username="markhardware"/>
           <TwitterLink username="henryyinn"/>
         </div>
       </footer>
