@@ -9,17 +9,6 @@
   gap: 20px; /* Ensures spacing between elements */
 }
 
-.hero h1 {
-  font-size: 48px;
-  font-weight: bold;
-  color: #333;
-}
-
-.hero-text {
-  font-size: 16px;
-  font-weight: 400;
-}
-
 .join-waitlist-button {
   background-color: #C4C4C4;
   border: none;

@@ -1,33 +1,24 @@
 /* Final Join Waitlist */
 .final-join-waitlist {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-  }
-  
-  .final-join-waitlist h1 {
-    font-size: 48px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .final-join-waitlist .join-waitlist-button {
-    background-color: #FB6839;
-    border: none;
-    padding: 12px 24px;
-    font-size: 2px;
-    font-weight: 700;
-    border-radius: 8px;
-    margin-top: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-    color: white;
-  }
-  
-  .final-join-waitlist .join-waitlist-button:hover {
-    background-color: #e05b32;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding-bottom: 0;
+}
+
+/* Ensures the image appears below the text but aligns with footer */
+.final-join-waitlist .still4 {
+  width: 500%;
+  max-width: 1200px;
+  margin-top: 3rem; /* Creates spacing below button */
+}
+
+.final-join-waitlist .still4 img {
+  width: 500%;
+  opacity: 1%;
+  height: auto;
+  object-fit: contain;
+}

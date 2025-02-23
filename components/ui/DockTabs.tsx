@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils"; // Utility function
+import { cn } from "@/lib/utils";
+import Typography from "@/components/ui/Typography"; // Import Typography
 
 const tabs = ["Summary", "Friends", "Games", "Data"];
 
@@ -30,10 +31,8 @@ const DockTabs = ({
   };
 
   const content = renderContent();
-  
 
   return insideIphone ? (
-    // Content INSIDE iPhone screen
     <motion.div
       key={activeTab}
       className="w-full flex flex-col items-center justify-center"
@@ -41,20 +40,16 @@ const DockTabs = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <img src={content.image} alt={activeTab} className="max-w-[112%] mt-3"  />
-      
+      <img src={content.image} alt={activeTab} className="max-w-[112%] mt-3" />
     </motion.div>
-    
   ) : (
-    // Dock Navigation - Positioned Below the iPhone
     <div className="mt-6 flex items-center justify-center bg-white p-3 rounded-full shadow-md relative">
-      
       {tabs.map((tab) => (
         <button
           key={tab}
           className={`relative flex items-center justify-center w-20 h-10 text-sm font-semibold transition-all ${
             activeTab === tab ? "text-white" : "text-gray-600"
-          } hover:bg-gray-300`}
+          } hover:text-[#FB6839]`}
           onClick={() => setActiveTab(tab)}
         >
           {activeTab === tab && (
@@ -64,7 +59,9 @@ const DockTabs = ({
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             />
           )}
-          <span className="relative z-10">{tab}</span>
+          <Typography variant="body3" className="relative z-10">
+            {tab}
+          </Typography>
         </button>
       ))}
     </div>

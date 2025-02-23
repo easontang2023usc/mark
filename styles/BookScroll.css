@@ -1,56 +1,89 @@
-
-
-
 .book-scroll-container {
-  height: 150vh; /* Ensure enough scrolling space */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 300vh;
   position: relative;
-  background-color: black; /* Set background to black */
+  background: #000;
 }
 
 .book-scroll {
-  position: relative;
   height: 100vh;
   width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: black; /* Ensure section is black */
+  justify-content: flex-start;
+  color: white;
+  background: #000;
+  transition: position 0.3s ease-out;
+  padding-left: 100px; /* Align text left */
 }
 
-.sticky {
+.book-scroll.sticky {
   position: fixed;
   top: 0;
-  width: 100%;
-  height: 100vh;
-  background: black;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 10;
 }
 
 .book-container {
-  text-align: center;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
 }
 
 .book-title {
-  font-size: 3rem;
-  font-weight: bold;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0;
+  padding: 1rem 2rem;
   opacity: 1;
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-  color: white; /* Text color to contrast with black background */
+  transform: translateY(0);
+  max-width: 1000px;
+  text-align: left;
 }
 
-.book-title.faded {
-  font-size: 2rem;
-  opacity: 0.4;
-  transform: scale(0.9);
+.highlight {
+  color: #FB6839; /* Highlight "65%" in orange */
+  font-weight: bold;
 }
 
 .book-title.main {
-  font-size: 2.5rem;
-  color: white;
-  transition: transform 0.6s ease-in-out;
+  font-size: 50px;
+  font-weight: bold;
 }
+
+.book-title.faded {
+  font-size: 30px;
+  opacity: 0.5;
+  /* transform: scale(0.8); */
+}
+
+.scroll-lines-container {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  z-index: 20;
+}
+
+.scroll-line {
+  width: 60px; /* Default width */
+  height: 2px; /* Keep thin */
+  min-height: 2px;
+  background: white;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.scroll-line:hover {
+  width: 100px; /* Expand on hover */
+  background: #ccc; /* Subtle hover color */
+  transform: scaleX(1);
+  opacity: 1 !important;
+}
+

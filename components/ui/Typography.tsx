@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 type TypographyProps = {
-  variant: "h1" | "h2" | "h3" | "body1" | "body2";
+  variant: "h1" | "h2" | "h3" | "body1" | "body2" | "body3"; // Added body3
   className?: string;
   children: React.ReactNode;
 };
@@ -15,7 +15,8 @@ const Typography: React.FC<TypographyProps> = ({ variant, className, children })
     h2: "text-4xl md:text-5xl font-semibold leading-snug",
     h3: "text-2xl md:text-3xl font-semibold",
     body1: "text-lg md:text-xl font-normal",
-    body2: "text-base md:text-lg font-light",
+    body2: "text-xs md:text-sm font-normal",
+    body3: "text-xs md:text-sm font-light", // Added body3 (12px)
   };
 
   return <p className={cn(baseStyles, variants[variant], className)}>{children}</p>;

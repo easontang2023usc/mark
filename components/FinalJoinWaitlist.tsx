@@ -1,20 +1,20 @@
 "use client";
 import React from "react";
-import { BackgroundBeams } from "@/components/ui/background-beams";
+import Typography from "@/components/ui/Typography";
 
 export default function FinalJoinWaitlist() {
   return (
-    <div className="h-screen w-full flex flex-col items-center justify-center bg-white relative">
+    <div className="w-full flex flex-col items-center justify-center bg-white relative pb-0">
       <div className="max-w-2xl mx-auto p-6 text-center">
         {/* Title */}
-        <h1 className="relative z-10 text-4xl md:text-6xl font-bold text-gray-800">
+        <Typography variant="h1" className="relative z-10 text-gray-800">
           Join the Waitlist
-        </h1>
+        </Typography>
 
         {/* Subtitle */}
-        <p className="text-gray-600 max-w-lg mx-auto mt-4 text-sm md:text-lg relative z-10">
+        <Typography variant="body1" className="text-gray-600 max-w-lg mx-auto mt-4 relative z-10">
           Be the first to experience Mark.
-        </p>
+        </Typography>
 
         {/* Email Input & Submit Button */}
         <div className="flex items-center gap-3 mt-6 bg-gray-100 px-2 py-2 rounded-full shadow-md">
@@ -30,7 +30,15 @@ export default function FinalJoinWaitlist() {
           </button>
         </div>
       </div>
-      {/* <BackgroundBeams /> */}
+
+      {/* Large Image Below Button */}
+      <div className="w-full relative flex justify-center">
+        <img
+          src="/Mark_Assets/still4.svg"
+          alt="Summary Feature"
+          className="w-full max-w-9xl h-auto object-cover opacity-90"
+        />
+      </div>
     </div>
   );
 }

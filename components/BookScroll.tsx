@@ -1,17 +1,14 @@
-
-
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import "../styles/BookScroll.css"; // Ensure you have the corresponding CSS file for styling
+import "../styles/BookScroll.css";
 
 const bookTitles = [
   "MARK®",
-  "Today, book readers struggle to retain everything they read",
+  "Today, book readers struggle to retain everything they read.",
   "But you want that paper feel, not that pixel screen bullsh*t.",
-  "65% of Americans feel the same way. ",
+  "65% of Americans feel the same way.",
   "We hear you.",
   ""
 ];
@@ -38,6 +35,12 @@ const BookScroll = () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     }
   };
+
+  const jumpToIndex = (index: number) => {
+    targetIndexRef.current = index;
+    setCurrentIndex(index); 
+    animationRef.current = requestAnimationFrame(animate);
+};
 
   useEffect(() => {
     const handleScroll = () => {
@@ -123,19 +126,47 @@ const BookScroll = () => {
   return (
     <div ref={containerRef} className="book-scroll-container">
       <div className={`book-scroll ${isSticky ? "sticky" : ""}`}>
+        <div className="scroll-lines-container">
+          {bookTitles.map((_, index) => {
+            const isActive = Math.abs(currentIndex - index) < 1;
+            const opacity = Math.max(0, 1 - Math.abs(currentIndex - index) * 0.3);
+            return (
+              <div
+                  key={index}
+                  className="scroll-line"
+                  style={{
+                      opacity,
+                      width: isActive ? "50px" : "40px",
+                      height: "4px", /* Keep it thin */
+                      cursor: "pointer", /* Indicate it's clickable */
+                  }}
+                  onClick={() => jumpToIndex(index)}
+              />
+          );
+          })}
+        </div>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
           className="book-container"
         >
-          <p className="book-title faded">
-            {bookTitles[Math.floor(currentIndex - 1)] || ""}
-          </p>
-          <p className="book-title main">{bookTitles[Math.floor(currentIndex)]}</p>
-          <p className="book-title faded">
-            {bookTitles[Math.floor(currentIndex + 1)] || ""}
-          </p>
+          <p className="book-title faded">{bookTitles[Math.floor(currentIndex - 1)] || ""}</p>
+          <p className="book-title main">
+  {Math.floor(currentIndex) === 3 ? (
+    <>
+      <span className="highlight">65%</span> of Americans feel the same way.
+    </>
+  ) : Math.floor(currentIndex) === 2 ? (
+    <>
+      But you want that paper feel, not that pixel screen{" "}
+      <span className="highlight">bullsh*t</span>.
+    </>
+  ) : (
+    bookTitles[Math.floor(currentIndex)]
+  )}
+</p>
+          <p className="book-title faded">{bookTitles[Math.floor(currentIndex + 1)] || ""}</p>
         </motion.div>
       </div>
     </div>
