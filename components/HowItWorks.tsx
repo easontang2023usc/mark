@@ -11,17 +11,24 @@ const cards = [
 
 export default function HowItWorks() {
   return (
-    <section className="relative my-16 py-12">
+    <section className="relative my-16 py-12 flex flex-col items-center">
       {/* Section Title */}
-      <div className="text-center mb-10">
-        <Typography variant="h3">Discover the power of seamless AI</Typography>
+      <div className="text-center max-w-2xl">
+        <Typography variant="h3" className="text-lg font-semibold text-primary">
+          How It Works
+        </Typography>
+        <Typography variant="h3" className="text-4xl font-bold mt-2">
+          Discover the power of seamless AI
+        </Typography>
         <Typography variant="body1" className="text-neutral-500 mt-2">
-          Mark is tailored to your usual reading experience
+          Mark is tailored to your usual reading experience.
         </Typography>
       </div>
 
       {/* Cards Carousel */}
-      <Carousel items={cards.map((card, i) => <Card key={i} card={card} index={i} />)} />
+      <div className="w-full mt-10 max-w-4xl">
+        <Carousel items={cards.map((card, i) => <Card key={i} card={card} index={i} />)} />
+      </div>
     </section>
   );
 }
