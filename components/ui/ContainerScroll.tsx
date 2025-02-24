@@ -17,6 +17,13 @@ export const ContainerScroll = () => {
   const scale = useTransform(scrollYProgress, [0, 0.5], scaleDimensions());
   const translate = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
 
+  const tabDescriptions: Record<string, string> = {
+    Summary: "Review key takeaways from your latest reading.",
+    Friends: "See what your friends are reading and share insights.",
+    Games: "Engage in interactive reading challenges and games.",
+    Data: "Visualize your reading habits and track progress.",
+  };
+
   return (
     <div
       className="h-[60rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20"
@@ -27,14 +34,17 @@ export const ContainerScroll = () => {
           {/* Text Section */}
           <motion.div
             style={{ translateY: translate }}
-            className="text-left max-w-md" // Added max-width constraint
+            className="text-left max-w-md"
           >
             <Typography variant="h1">Synced directly to your devices</Typography>
             <Typography variant="body1" className="text-neutral-500 mt-5">Grow on the go</Typography>
+            <Typography variant="body2" className="text-neutral-400 mt-3">
+              {tabDescriptions[activeTab] || ""}
+            </Typography>
           </motion.div>
 
           {/* iPhone and Tabs Container */}
-          <div className="flex flex-col items-center gap-1" style={{ perspective: "1000px" }}> {/* Reduced gap from 8 to 4 */}
+          <div className="flex flex-col items-center gap-1" style={{ perspective: "1000px" }}>
             {/* iPhone Container */}
             <motion.div
               style={{
@@ -42,11 +52,12 @@ export const ContainerScroll = () => {
                 scale,
                 boxShadow: "0 5px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15)",
               }}
-              className="w-[290px] h-[600px] md:w-[330px] md:h-[650px] border-[1.5px] border-[#6C6C6C] p-3 bg-[#222222] rounded-[45px] shadow-lg flex flex-col items-center justify-center"
+              className="w-[290px] h-[600px] md:w-[330px] md:h-[650px] border-[1.5px] border-[#6C6C6C] p-3 bg-[#222222] rounded-[45px] shadow-lg flex flex-col items-center justify-center relative"
             >
-              <div className="absolute top-5 left-1/2 -translate-x-1/2 w-24 h-8 bg-black rounded-full shadow-md" />
+              {/* iPhone Island - Now has a higher z-index to always stay on top */}
+              <div className="absolute top-5 left-1/2 -translate-x-1/2 w-24 h-8 bg-black rounded-full shadow-md z-20" />
 
-              <div className="h-full w-full overflow-hidden rounded-[35px] bg-gray-100 dark:bg-zinc-900 p-4 flex flex-col items-center justify-center">
+              <div className="h-full w-full overflow-hidden rounded-[35px] bg-gray-100 dark:bg-zinc-900 p-4 flex flex-col items-center justify-center relative">
                 <DockTabs activeTab={activeTab} setActiveTab={setActiveTab} insideIphone />
               </div>
             </motion.div>

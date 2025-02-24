@@ -167,6 +167,7 @@ export default function HowItWorksPage() {
             Read, Mark, Send
           </h1>
         </div>
+
       </div>
 
       <div ref={containerRef} className="relative h-[300vh]">

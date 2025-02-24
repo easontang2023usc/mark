@@ -28,9 +28,9 @@ export const CarouselContext = createContext<{
 export const Carousel = ({ items }: CarouselProps) => {
   return (
     <CarouselContext.Provider value={{ onCardClose: () => {}, currentIndex: 0 }}>
-      <div className="relative w-full">
+      <div className="relative w-full overflow-hidden">
         <div className="flex w-full overflow-x-scroll overscroll-x-auto py-10 md:py-20 scroll-smooth [scrollbar-width:none]">
-          <div className="flex flex-row justify-start gap-4 pl-4 max-w-7xl mx-auto">
+          <div className="flex flex-row justify-start gap-4 pl-4 max-w-full">
             {items.map((item, index) => (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

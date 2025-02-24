@@ -184,7 +184,7 @@ const Hero3D = () => {
             <Typography variant="body2" className="hero-text">
               Introducing Mark 1, the physical bookmark that tracks and summarizes the pages you read.
             </Typography>
-            
+
             <WaitlistDialog />
           </div>
 
