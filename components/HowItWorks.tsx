@@ -53,11 +53,11 @@ export default function HowItWorksPage() {
   const padding = initialPadding + (finalPadding - initialPadding) * scrollProgress
 
   return (
-    <main className="min-h-[200vh] bg-white">
+    <main className="min-h-[120vh] bg-white">
       <div className="container mx-auto px-24 pt-20">
         <div className="max-w-[1000px]">
           <h2 className="text-[21px] text-gray-600 font-medium mb-2">
-            How it works
+            So easy to use
           </h2>
           <h1 className="text-[48px] leading-[1.1] font-semibold tracking-[-0.003em] md:text-[80px] md:leading-[1.05] md:tracking-[-0.015em]">
             Read, Mark, Send

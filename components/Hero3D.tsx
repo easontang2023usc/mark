@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Typography from "@/components/ui/Typography";
 import "../styles/Hero.css";
+import WaitlistDialog from "./waitlistForm";
 
 const Hero3D = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -183,18 +184,8 @@ const Hero3D = () => {
             <Typography variant="body2" className="hero-text">
               Introducing Mark 1, the physical bookmark that tracks and summarizes the pages you read.
             </Typography>
-            <div className="flex items-center gap-1 bg-gray-100 px-2 py-2 rounded-full shadow-md w-full max-w-md">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-grow p-3 border-none rounded-full focus:outline-none bg-transparent text-gray-900 placeholder:text-gray-500"
-              />
-              <button
-                className="px-6 py-3 bg-[#FB6839] text-white font-semibold rounded-full hover:bg-[#E25F33] transition duration-200"
-              >
-                <Typography variant="body3">Submit</Typography>
-              </button>
-            </div>
+            
+            <WaitlistDialog />
           </div>
 
           {isLoading && (

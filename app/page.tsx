@@ -1,12 +1,13 @@
 import Hero from "@/components/Hero";
 import BookScroll from "@/components/BookScroll";
-import HowItWorks from "@/components/HowItWorks";
 import Functions from "@/components/Functions";
 import BentoBox from "@/components/BentoBox";
 import FinalJoinWaitlist from "@/components/FinalJoinWaitlist";
 import ContainerScroll from "@/components/ui/ContainerScroll";
 import Hero3D from "@/components/Hero3D";
-import ShrinkingSection from "@/components/HowItWorks";
+import HowItWorksPage from "@/components/HowItWorks";
+import ExplainSection from "@/components/explainSection";
+
 export default function Home() {
   return (
     <>
@@ -14,7 +15,8 @@ export default function Home() {
       {/* <Hero /> */}
       <BookScroll />
       {/* <HowItWorks /> */}
-      <ShrinkingSection />
+      <HowItWorksPage />
+      <ExplainSection />
       <Functions />
       <BentoBox />
       <FinalJoinWaitlist />
