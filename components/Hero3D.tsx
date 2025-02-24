@@ -183,7 +183,7 @@ const Hero3D = () => {
             <Typography variant="body2" className="hero-text">
               Introducing Mark 1, the physical bookmark that tracks and summarizes the pages you read.
             </Typography>
-            <div className="flex items-center gap-1 bg-gray-100 px-2 py-2 rounded-full shadow-md w-full max-w-md">
+            <div className="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-full shadow-md w-full max-w-md">
               <input
                 type="email"
                 placeholder="Enter your email"

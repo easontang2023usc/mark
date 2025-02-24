@@ -90,8 +90,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 150px; /* Increased height */
-    width: 100%;
+    height: 180px; /* Increased height */
+    width: 100vw; /* Ensures it only takes up the visible width */
+    overflow: hidden
     
 }
 

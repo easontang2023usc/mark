@@ -1,6 +1,18 @@
 import type { Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
+import colors from "tailwindcss/colors";
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
+const addVariablesForColors = ({ addBase, theme }: any) => {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
 
+  addBase({
+    ":root": newVars,
+  });
+};
 
 const config: Config = {
   darkMode: ["class"],
@@ -8,23 +20,21 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
-    "./styles/**/*.css", // Add this line to include your `styles` folder
+    "./styles/**/*.css",
   ],
   theme: {
     extend: {
       fontFamily: {
         satoshi: ["Satoshi", "sans-serif"],
       },
-
       fontSize: {
         h1: "3rem", // 48px
         h2: "2.25rem", // 36px
         h3: "1.75rem", // 28px
         body1: "1.125rem", // 18px
         body2: "1rem", // 16px
-        body3: "0.75rem", // 12px  <-- ✅ Added body3 here
+        body3: "0.75rem", // 12px
       },
-
       fontWeight: {
         thin: "100",
         light: "300",
@@ -33,13 +43,11 @@ const config: Config = {
         bold: "700",
         black: "900",
       },
-
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -84,12 +92,10 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"), 
+    addVariablesForColors
+  ],
 };
 
-
-
-
-
 export default config;
-
