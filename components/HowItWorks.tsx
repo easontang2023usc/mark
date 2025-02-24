@@ -16,7 +16,7 @@ export default function HowItWorks() {
       <div className="text-center mb-10">
         <Typography variant="h3">Discover the power of seamless AI</Typography>
         <Typography variant="body1" className="text-neutral-500 mt-2">
-          Mark is tailored to your usual reading experience
+          Mark is a bookmark tailored to your usual reading experience
         </Typography>
       </div>
 
