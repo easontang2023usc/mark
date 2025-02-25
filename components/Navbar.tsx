@@ -161,7 +161,7 @@ const MobileNavbar: FC<MobileNavbarProps> = ({ menuOpen, toggleMenu, setMenuOpen
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }} // Slightly faster exit to align with nav
             >
-              <div className="flex flex-col h-full justify-end pb-16 mb-12">
+              <div className="flex flex-col h-full justify-end pb-16 mb-16">
                 <div className="flex flex-col items-center gap-8 px-6">
                   <Link 
                     href="https://x.com/markhardware" 

@@ -26,7 +26,7 @@ export default function MobileHowItWorksPage() {
   const initialHeight = 100; // Percentage value
   const finalHeight = 140; // Taller final height but not too tall
 
-  // Define updateCanvas first as it's used by other functions
+  // Handle canvas resizing and drawing
   const updateCanvas = useCallback((frameIndex: number) => {
     if (!canvasRef.current || !images.current[frameIndex] || !imagesLoaded) return;
 
@@ -40,43 +40,6 @@ export default function MobileHowItWorksPage() {
     }
   }, [imagesLoaded, dimensions.width, dimensions.height]);
 
-  // Define handleScroll before it's used
-  const handleScroll = useCallback(() => {
-    if (!containerRef.current || !canvasRef.current || !imagesLoaded) return;
-
-    const container = containerRef.current;
-    const scrollTop = window.scrollY;
-    const containerRect = container.getBoundingClientRect();
-    const containerTop = containerRect.top + scrollTop;
-    const containerHeight = containerRect.height;
-
-    const frameProgress = (scrollTop - containerTop) / (containerHeight - window.innerHeight);
-    const frameIndex = Math.min(
-      Math.max(0, Math.floor(frameProgress * (totalFrames - 1))),
-      totalFrames - 1
-    );
-
-    const windowHeight = window.innerHeight;
-    const startPoint = windowHeight / 2;
-    const endPoint = startPoint - 550;
-    const elementTop = containerRect.top;
-    let parallaxProgress = 0;
-
-    if (elementTop <= startPoint && elementTop >= endPoint) {
-      parallaxProgress = (startPoint - elementTop) / 550;
-    } else if (elementTop < endPoint) {
-      parallaxProgress = 1;
-    }
-
-    setScrollProgress(Math.max(0, Math.min(parallaxProgress, 1)));
-    
-    if (frameIndex !== currentFrame) {
-      setCurrentFrame(frameIndex);
-      updateCanvas(frameIndex);
-    }
-  }, [imagesLoaded, totalFrames, currentFrame, updateCanvas]);
-
-  // Define handleResize after updateCanvas is defined
   const handleResize = useCallback(() => {
     if (!imagesLoaded || !images.current[0] || !canvasRef.current) return;
 
@@ -96,13 +59,16 @@ export default function MobileHowItWorksPage() {
     if (canvasRef.current) {
       canvasRef.current.width = width;
       canvasRef.current.height = height;
+      
+      // Draw the current frame immediately after resizing
       updateCanvas(currentFrame);
     }
   }, [imagesLoaded, updateCanvas, currentFrame]);
 
   // Load images into memory
   useEffect(() => {
-    if (!imagesLoaded) return;
+    // Skip loading if already loaded
+    if (imagesLoaded) return;
     
     const loadImages = async () => {
       try {
@@ -154,20 +120,63 @@ export default function MobileHowItWorksPage() {
     };
 
     loadImages();
-  }, [imagesLoaded, framePaths, updateCanvas]);
+  }, [framePaths, imagesLoaded]);
 
   // Set up resize handler after images are loaded
   useEffect(() => {
     if (!imagesLoaded) return;
     
+    // Set up resize listener
     window.addEventListener("resize", handleResize);
-    window.addEventListener("scroll", handleScroll);
+    
+    // Manually trigger scroll calculation for initial position
+    requestAnimationFrame(() => {
+      handleResize();
+      handleScroll();
+    });
     
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", handleScroll);
     };
-  }, [imagesLoaded, handleResize, handleScroll]);
+  }, [imagesLoaded, handleResize]);
+
+  // Handle scroll for frame scrubbing and parallax effects
+  const handleScroll = useCallback(() => {
+    if (!containerRef.current || !canvasRef.current || !imagesLoaded) return;
+
+    const container = containerRef.current;
+    const scrollTop = window.scrollY;
+    const containerRect = container.getBoundingClientRect();
+    const containerTop = containerRect.top + scrollTop;
+    const containerHeight = containerRect.height;
+
+    // Frame scrubbing progress
+    const frameProgress = (scrollTop - containerTop) / (containerHeight - window.innerHeight);
+    const frameIndex = Math.min(
+      Math.max(0, Math.floor(frameProgress * (totalFrames - 1))),
+      totalFrames - 1
+    );
+
+    // Parallax progress
+    const windowHeight = window.innerHeight;
+    const startPoint = windowHeight / 2;
+    const endPoint = startPoint - 550;
+    const elementTop = containerRect.top;
+    let parallaxProgress = 0;
+
+    if (elementTop <= startPoint && elementTop >= endPoint) {
+      parallaxProgress = (startPoint - elementTop) / 550;
+    } else if (elementTop < endPoint) {
+      parallaxProgress = 1;
+    }
+
+    setScrollProgress(Math.max(0, Math.min(parallaxProgress, 1)));
+    
+    if (frameIndex !== currentFrame) {
+      setCurrentFrame(frameIndex);
+      updateCanvas(frameIndex);
+    }
+  }, [imagesLoaded, totalFrames, currentFrame, updateCanvas]);
 
   // Dynamic styles
   const radius = initialRadius + (finalRadius - initialRadius) * scrollProgress;

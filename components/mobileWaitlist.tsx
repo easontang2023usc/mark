@@ -52,7 +52,7 @@ export function MobileWaitlist({ onSuccess }: MobileWaitlistProps) {
                 <X size={24} />
               </button>
             </div>
-            <p className="text-gray-600 mb-6 text-[0.9rem] pb-4">
+            <p className="text-gray-600 mb-6 text-[0.9rem] pb-4 text-left">
               We&apos;re excited to learn more about what you&apos;re reading! Join our waitlist to stay updated.
             </p>
             <MobileWaitlistForm 
@@ -208,7 +208,7 @@ function MobileWaitlistForm({ onSuccess }: MobileWaitlistProps) {
       </Button>
 
       {message && (
-        <p className={`text-sm text-center mt-2 ${message.includes("Successfully") ? "text-green-600" : "text-red-500"}`}>
+        <p className={`text-sm text-center mt-4 ${message.includes("Successfully") ? "text-green-600" : "text-red-500"}`}>
           {message}
         </p>
       )}
