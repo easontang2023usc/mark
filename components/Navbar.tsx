@@ -53,7 +53,7 @@ const DesktopNavbar: FC = () => {
         <div className="relative h-7 w-28">
           <Link href="/">
             <Image
-              src="/Mark_Assets/mark_logo_full_white.png"
+              src="/Mark_Assets/mark_full_logo_white.svg"
               alt="Mark Logo"
               fill
               className="object-contain"
@@ -83,9 +83,11 @@ interface MobileNavbarProps {
 }
 
 const MobileNavbar: FC<MobileNavbarProps> = ({ menuOpen, toggleMenu, setMenuOpen }) => {
+  // Define a fixed closed height (adjust based on your header's natural height)
+  const closedHeight = '60px'; // Roughly the height of the header (logo + button + padding)
+
   return (
     <>
-      {/* Background overlay that appears when menu is open */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div 
@@ -100,101 +102,97 @@ const MobileNavbar: FC<MobileNavbarProps> = ({ menuOpen, toggleMenu, setMenuOpen
       
       <motion.nav 
         className="fixed top-[2%] left-1/2 transform -translate-x-1/2 w-[90%] max-w-[900px] rounded-3xl backdrop-blur-md shadow-md z-50 overflow-hidden bg-[rgba(54,54,54,0.6)]"
+        initial={{ height: closedHeight }} // Explicit initial state
         animate={{ 
-          height: menuOpen ? 'calc(100vh - 4%)' : 'auto',
-          borderRadius: menuOpen ? '24px' : '24px'
+          height: menuOpen ? 'calc(100vh - 4%)' : closedHeight,
+          borderRadius: '24px' // No change needed since it’s constant
         }}
         transition={{ 
-          duration: 0.6, 
-          ease: [0.22, 1, 0.36, 1],
-          height: { duration: 0.2 }
+          duration: 0.3,
+          ease: [0.22, 1, 0.36, 1]
         }}
       >
-      {/* Header Section (Always Visible) */}
-      <div className="flex items-center justify-between px-6 py-3">
-        {/* Logo that grows when menu opens while staying fully visible */}
-        <motion.div
-          animate={{ 
-            scale: menuOpen ? 1.4 : 1,
-            x: menuOpen ? 20 : 0, // Move slightly right when expanded to prevent clipping
-            transformOrigin: "center"
-          }}
-          transition={{ duration: 0.3 }}
-        >
-          <Link href="/">
-            <div className="relative h-6 w-24">
-              <Image
-                src="/Mark_Assets/Mark_logo_full_white.png"
-                alt="Mark Logo"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-          </Link>
-        </motion.div>
-
-        {/* Mobile Menu Button - Plus icon that rotates counter-clockwise and scales up */}
-        <motion.button 
-          onClick={toggleMenu} 
-          className="text-white p-2 flex items-center justify-center"
-          aria-label="Toggle menu"
-        >
+        <div className="flex items-center justify-between px-6 py-3">
           <motion.div
             animate={{ 
-              rotate: menuOpen ? -45 : 0,  // Counter-clockwise rotation
-              scale: menuOpen ? 1.4 : 1,   // Scale up
-              transformOrigin: "center"    // Scale from center
+              scale: menuOpen ? 1.4 : 1,
+              x: menuOpen ? 20 : 0,
+              transformOrigin: "center"
             }}
             transition={{ duration: 0.3 }}
           >
-            <Plus size={24} className="text-white" />
+            <Link href="/">
+              <div className="relative h-6 w-24">
+                <Image
+                  src="/Mark_Assets/mark_full_logo_white.svg"
+                  alt="Mark Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            </Link>
           </motion.div>
-        </motion.button>
-      </div>
 
-      {/* Mobile Menu Content */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div 
-            className="flex flex-col h-full"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2, delay: 0.1 }}
+          <motion.button 
+            onClick={toggleMenu} 
+            className="text-white p-2 flex items-center justify-center"
+            aria-label="Toggle menu"
           >
-            <div className="flex flex-col h-full justify-end pb-16 mb-12">
-              <div className="flex flex-col items-center gap-8 px-6">
-                <Link 
-                  href="https://x.com/markhardware" 
-                  className="text-white text-lg font-medium"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <div className="relative h-6 w-6">
-                    <Image
-                      src="/X_logo.svg"
-                      alt="X logo"
-                      fill
-                      className="object-contain"
-                    />
+            <motion.div
+              animate={{ 
+                rotate: menuOpen ? -45 : 0,
+                scale: menuOpen ? 1.4 : 1,
+                transformOrigin: "center"
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              <Plus size={24} className="text-white" />
+            </motion.div>
+          </motion.button>
+        </div>
+
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div 
+              className="flex flex-col h-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }} // Slightly faster exit to align with nav
+            >
+              <div className="flex flex-col h-full justify-end pb-16 mb-12">
+                <div className="flex flex-col items-center gap-8 px-6">
+                  <Link 
+                    href="https://x.com/markhardware" 
+                    className="text-white text-lg font-medium"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <div className="relative h-6 w-6">
+                      <Image
+                        src="/X_logo.svg"
+                        alt="X logo"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </Link>
+                  <Link 
+                    href="/manifesto" 
+                    className="text-white text-lg font-medium"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Manifesto
+                  </Link>
+                  <div className="w-full px-4">
+                    <MobileWaitlist />
                   </div>
-                </Link>
-                <Link 
-                  href="/manifesto" 
-                  className="text-white text-lg font-medium"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Manifesto
-                </Link>
-                <div className="w-full px-4">
-                  <MobileWaitlist />
                 </div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.nav>
     </>
   );
 };

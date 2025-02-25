@@ -278,7 +278,7 @@ export default function LoadingScreen({
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black">
       <div className="mb-8 relative w-48 h-24">
         <Image 
-          src="/Mark_Assets/mark_logo_full_white.png" 
+          src="/Mark_Assets/mark_full_logo_white.svg" 
           alt="Mark Logo"
           fill
           style={{
