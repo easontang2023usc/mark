@@ -1,0 +1,84 @@
+ .book-scroll-container {
+  height: 300vh;
+  position: relative;
+  background: #000;
+}
+
+.book-scroll {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: white;
+  background: #000;
+  transition: position 0.3s ease-out;
+  padding-left: 100px; /* Align text left */
+}
+
+.book-scroll.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+.book-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.book-title {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0;
+  padding: 1rem 2rem;
+  opacity: 1;
+  max-width: 1000px;
+  text-align: left;
+}
+
+.book-title.main {
+  font-size: 50px;
+  font-weight: bold;
+  color: white;
+}
+
+.book-title.faded {
+  font-size: 30px;
+  opacity: 0.5;
+}
+
+.highlight {
+  color: #FB6839;
+  font-weight: bold;
+}
+
+.scroll-lines-container {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  z-index: 20;
+}
+
+.scroll-line {
+  width: 60px;
+  height: 2px;
+  background: white;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.scroll-line:hover {
+  width: 100px;
+  background: #ccc;
+}

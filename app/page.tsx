@@ -1,84 +1,133 @@
-"use client";
+'use client'
 
-import React, { useRef, useEffect, useState } from "react";
-import Image from "next/image";
-import Crosshair from "@/components/crosshair";
-import CursorImage from "@/components/cursor-image";
-import TwitterLink from "@/components/twitter-link";
-import { InputWithButton } from "@/components/waitlist";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import React, { useState, useEffect } from 'react';
+import BentoBox from "@/components/BentoBox";
+import FinalJoinWaitlist from "@/components/FinalJoinWaitlist";
+import ContainerScroll from "@/components/ContainerScroll";
+import Hero3D from "@/components/Hero3D";
+import MobileHero from '@/components/mobileHero';
+import LoadingScreen from "@/components/loadingScreen";
+import HowItWorksPage from "@/components/HowItWorks";
+import ExplainSection from "@/components/explainSection";
+import StickyScrollDemo from "@/components/StickyScrollDemo";
+import MobileHowItWorksPage from '@/components/mobileHowItWorks';
 
-export default function Page() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [crosshairColor, setCrosshairColor] = useState("black");
-  const [cursorOpacity, setCursorOpacity] = useState(0);
-  const [isLaptop, setIsLaptop] = useState(false);
+export default function Home() {
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [contentVisible, setContentVisible] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  
+  // Define the image sequences to preload - prioritize important frames only
+  
+  // For the first sequence (mark_spin), load fewer frames initially
+  const criticalSpinFrames = Array.from({ length: 20 }, (_, i) =>
+    `/Mark_Assets/mark_spin/${String(i + 30).padStart(3, "0")}.jpg`
+  );
 
+  // For the second sequence, only load the first few critical frames
+  const criticalHeroFrames = Array.from({ length: 10 }, (_, i) =>
+    `/Mark_Assets/frames2/frame-${String(i + 1).padStart(4, "0")}.png`
+  );
+
+  // Group your critical image sequences for initial loading
+  const imageSequences: string[][] = [
+    criticalSpinFrames,
+    criticalHeroFrames
+  ];
+
+  // Check if device is mobile
   useEffect(() => {
-    const checkScreenSize = () => {
-      setIsLaptop(window.innerWidth >= 1024);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // Common breakpoint for mobile
     };
-
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
+    
+    // Check on initial load
+    checkMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  const handleLoadComplete = () => {
+    // Mark as loaded first
+    setIsLoaded(true);
+    
+    // Add pre-render time for components to initialize
+    setTimeout(() => {
+      setContentVisible(true);
+      
+      // Only load remaining frames if on desktop
+      if (!isMobile) {
+        loadRemainingFrames();
+      }
+    }, 300);
+  };
+  
+  const loadRemainingFrames = () => {
+    // Define the remaining frames to load
+    const remainingSpinFrames = Array.from({ length: 35 }, (_, i) =>
+      `/Mark_Assets/mark_spin/${String(i + 50).padStart(3, "0")}.jpg`
+    );
+    
+    const remainingHeroFrames = Array.from({ length: 75 }, (_, i) =>
+      `/Mark_Assets/frames2/frame-${String(i + 11).padStart(4, "0")}.png`
+    );
+    
+    // Function to load frames in small batches with delays
+    const loadFramesInBatches = (frames: string[], batchSize: number, delayBetweenBatches: number) => {
+      for (let i = 0; i < frames.length; i += batchSize) {
+        setTimeout(() => {
+          const batch = frames.slice(i, i + batchSize);
+          console.log(`Loading batch ${Math.floor(i/batchSize) + 1} of ${Math.ceil(frames.length/batchSize)}`);
+          
+          batch.forEach(src => {
+            const img = new Image();
+            img.onload = () => {
+              // console.log(`Loaded: ${src}`);
+            };
+            img.onerror = () => {
+              console.error(`Failed to load: ${src}`);
+            };
+            img.src = src;
+          });
+        }, Math.floor(i / batchSize) * delayBetweenBatches);
+      }
+    };
+    
+    // Load spin frames first (smaller set)
+    loadFramesInBatches(remainingSpinFrames, 5, 150);
+    
+    // Start loading hero frames after a delay
+    setTimeout(() => {
+      loadFramesInBatches(remainingHeroFrames, 3, 200);
+    }, 1000);
+  };
+  
   return (
-    <main 
-      ref={containerRef} 
-      className="relative min-h-screen bg-gradient-to-b from-white to-gray-50 flex flex-col items-center justify-center "
-    >
-      {/* Interactive Elements */}
-      {isLaptop && <Crosshair containerRef={containerRef} color={crosshairColor} />}
-      <CursorImage imageUrl="/mark_demo.png" size={80} opacity={cursorOpacity}/>
-      <SpeedInsights/>
-
-      {/* Hero Section */}
-      <div className="flex flex-col items-center px-4 w-full max-w-[500px] mx-auto">
-        <Image
-          src="/mark_logo.png"
-          alt="mark logo"
-          className="w-full h-auto cursor-pointer"
-          width={0}
-          height={0}
-          sizes="(max-width: 640px) 300px, (max-width: 768px) 400px, (max-width: 1024px) 500px, 600px"
-          onMouseEnter={() => {
-            if (isLaptop) {
-              setCrosshairColor("red");
-              setCursorOpacity(1);
-            }
-          }}
-          onMouseLeave={() => {
-            if (isLaptop) {
-              setCrosshairColor("black");
-              setCursorOpacity(0);
-            }
-          }}
-        />
-        
-        <h1 className="text-1xl md:text-2xl font-bold text-gray-800 mb-4 text-center">
-          Transform how you retain knowledge
-        </h1>
-        
-        <p className="text-xs md:text-lg font-light text-gray-600 mt-4 mb-14">
-          COMING SOON. 2/25/2025.
-        </p>
-
-        {/* Waitlist Section */}
-        <div className="w-full mb-1 items-center flex justify-center">
-          <InputWithButton />
+    <>
+      <LoadingScreen 
+        imageSequences={imageSequences}
+        onLoadComplete={handleLoadComplete}
+        minimumLoadTime={1500} // Ensure loading screen shows for at least 1.5 seconds
+      />
+      
+      {isLoaded && (
+        <div 
+          className="transition-opacity duration-500 ease-in" 
+          style={{ opacity: contentVisible ? 1 : 0 }}
+        >
+          {isMobile ? <MobileHero /> : <Hero3D />}
+          <StickyScrollDemo />
+          {isMobile ? <MobileHowItWorksPage /> : <HowItWorksPage />}
+          <ExplainSection />
+          <ContainerScroll />
+          <BentoBox />
+          <FinalJoinWaitlist />
         </div>
-      </div>
-
-      {/* Footer */}
-      <footer className="fixed bottom-0 w-ful bg-opacity-90 backdrop-blur-sm py-6">
-        <div className="flex justify-center gap-16 md:gap-24">
-          <TwitterLink username="easontang23"/>
-          <TwitterLink username="markhardware"/>
-          <TwitterLink username="henryyinn"/>
-        </div>
-      </footer>
-    </main>
+      )}
+    </>
   );
 }

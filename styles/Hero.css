@@ -1,0 +1,47 @@
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  gap: 20px; /* Ensures spacing between elements */
+}
+
+.join-waitlist-button {
+  background-color: #C4C4C4;
+  border: none;
+  padding: 12px 24px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.join-waitlist-button:hover {
+  background-color: #FB6839;
+  color: white;
+}
+
+/* Ensures Image is Centered and Takes ~40% of the Screen */
+.hero-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 90vh; /* Adjust based on design */
+  max-height: 30vh; /* 40% of the viewport height */
+  margin-top: 100px; /* Space from button */
+
+ 
+  bottom: 0;
+
+}
+
+.Markstill6-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}

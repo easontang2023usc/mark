@@ -1,0 +1,16 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap');
+/* Hover Effect for MARK */
+.footer-hover-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 180px; /* Increased height */
+    width: 100vw; /* Ensures it only takes up the visible width */
+    overflow: hidden
+    
+}
+
+.footer-hover-text svg {
+    scale: 1.8;
+    font-family: "SatoshiVariable", sans-serif;
+}
