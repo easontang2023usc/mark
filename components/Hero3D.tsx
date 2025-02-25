@@ -247,9 +247,9 @@ const Hero3D = () => {
             }}
           >
             <Typography variant="h2" className="text-black w-[700]" >
-              Reach your intellectual potential
+              Unlock your intellectual potential
             </Typography>
-            <Typography variant="body2" className="hero-text">
+            <Typography variant="body1" className="hero-text w-[1000px]">
               Introducing Mark 1, the physical bookmark that tracks and summarizes the pages you read.
             </Typography>
             <WaitlistDialog />

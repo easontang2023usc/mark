@@ -11,10 +11,10 @@ export default function Footer() {
         
         {/* Footer Left Section */}
         <div className="flex flex-col items-start space-y-2">
-          <a href="#" className="text-black hover:text-[#FB6839] transition-colors">
+          <a href="/" className="text-black hover:text-[#FB6839] transition-colors">
             <Typography variant="body2">Home</Typography>
           </a>
-          <a href="#" className="text-black hover:text-[#FB6839] transition-colors">
+          <a href="/manifesto" className="text-black hover:text-[#FB6839] transition-colors">
             <Typography variant="body2">Manifesto</Typography>
           </a>
         </div>
@@ -22,14 +22,14 @@ export default function Footer() {
         {/* Footer Right Section */}
         <div className="flex flex-col items-end space-y-2">
           <div className="flex gap-6">
-            <a href="#" className="text-black hover:text-[#FB6839] transition-colors">
+            <a href="/terms-and-service" className="text-black hover:text-[#FB6839] transition-colors">
               <Typography variant="body2">Terms of Service</Typography>
             </a>
-            <a href="#" className="text-black hover:text-[#FB6839] transition-colors">
+            <a href="/privacy-policy" className="text-black hover:text-[#FB6839] transition-colors">
               <Typography variant="body2">Privacy Policy</Typography>
             </a>
-            <a href="#" className="text-black hover:text-[#FB6839] transition-colors">
-              <Typography variant="body2">Contact Us</Typography>
+            <a href="mailto:contact@mark.engineering" target="_blank" className="text-black hover:text-[#FB6839] transition-colors">
+              <Typography variant="body2">Contact@Mark.Engineering</Typography>
             </a>
             {/* <a href="#" className="text-black hover:text-[#FB6839] transition-colors">
               <Typography variant="body2">Returns</Typography>

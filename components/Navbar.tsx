@@ -21,7 +21,10 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <WaitlistDialog />
+        <div className="flex items-center gap-6">
+          <a href="/manifesto" className="text-white font-medium uppercase">Manifesto</a>
+          <WaitlistDialog />
+        </div>
       
       </nav>
     </>

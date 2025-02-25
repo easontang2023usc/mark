@@ -66,15 +66,18 @@ export default function CameraFeature() {
         <div className="w-full z-20 md:w-1/2 text-gray-800 space-y-4 text-xl">
           <p>
             Designed to integrate effortlessly into your reading routine, Mark
-            enhances your experience without disrupting your flow. Simply read
-            as usual, set your page number when done, and let Mark take care of
-            the rest.
+            enhances your experience without disrupting your flow. 
           </p>
           <p>
+            Simply read
+            as usual, set your page number when done, and let Mark take care of
+            the rest.
+            </p>
+          {/* <p>
             With its intelligent tracking and intuitive design, Mark ensures you
             never lose your place—bringing a new level of convenience to your
             reading habits.
-          </p>
+          </p> */}
         </div>
 
         {/* Right side: video above, button below */}
