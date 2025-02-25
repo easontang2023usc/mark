@@ -23,7 +23,7 @@ export default function FinalJoinWaitlist() {
 
       {/* Large Image Below Button */}
        {/* Large Image Below Button */}
-      <div className="w-full flex justify-center overflow-hidden relative h-[500px"> {/* Adjust height */}
+      <div className="w-full flex justify-center overflow-hidden relative h-[500px]"> {/* Adjust height */}
         <img
           src="/Mark_Assets/still8.png"
           alt="Summary Feature"

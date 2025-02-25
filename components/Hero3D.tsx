@@ -8,10 +8,10 @@ import WaitlistDialog from "./waitlistForm";
 const Hero3D = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadingProgress, setLoadingProgress] = useState(0);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [currentFrame, setCurrentFrame] = useState(0);
+  const [initialRenderComplete, setInitialRenderComplete] = useState(false);
+  const [framesLoaded, setFramesLoaded] = useState<boolean[]>([]);
 
   const images = useRef<HTMLImageElement[]>([]);
   const totalFrames = 85;
@@ -19,9 +19,9 @@ const Hero3D = () => {
     `/Mark_Assets/frames2/frame-${String(i + 1).padStart(4, "0")}.png`
   );
 
-  // Define handleResize function properly before calling it
+  // Define handleResize function
   const handleResize = () => {
-    if (!images.current[0]) return;
+    if (!images.current[0] || !canvasRef.current) return;
 
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
@@ -38,103 +38,171 @@ const Hero3D = () => {
 
     setDimensions({ width, height });
 
-    if (canvasRef.current) {
-      canvasRef.current.width = width;
-      canvasRef.current.height = height;
-      const ctx = canvasRef.current.getContext("2d");
-      const currentImage = images.current[currentFrame];
+    canvasRef.current.width = width;
+    canvasRef.current.height = height;
+    
+    // Always redraw after resize
+    drawFrame(currentFrame);
+  };
 
-      if (ctx && currentImage) {
-        ctx.clearRect(0, 0, width, height);
-        ctx.drawImage(currentImage, 0, 0, width, height);
+  // Helper function to draw a specific frame
+  const drawFrame = (frameIndex: number) => {
+    if (!canvasRef.current || !images.current[frameIndex]) return;
+    
+    const ctx = canvasRef.current.getContext("2d");
+    const currentImage = images.current[frameIndex];
+
+    if (ctx && currentImage) {
+      ctx.clearRect(0, 0, dimensions.width, dimensions.height);
+      ctx.drawImage(currentImage, 0, 0, dimensions.width, dimensions.height);
+    }
+  };
+
+  // Priority loading for frames
+  useEffect(() => {
+    // Initialize frames loaded array with all false
+    setFramesLoaded(Array(totalFrames).fill(false));
+    
+    // First, load just the first frame with high priority
+    const loadFirstFrame = async () => {
+      try {
+        const firstImg = new Image();
+        const firstLoadPromise = new Promise<HTMLImageElement>((resolve) => {
+          firstImg.onload = () => resolve(firstImg);
+          firstImg.onerror = () => {
+            console.error(`Failed to load first frame`);
+            resolve(firstImg);
+          };
+          firstImg.src = framePaths[0];
+        });
+
+        const firstFrame = await firstLoadPromise;
+        images.current[0] = firstFrame;
+        
+        const newFramesLoaded = [...framesLoaded];
+        newFramesLoaded[0] = true;
+        setFramesLoaded(newFramesLoaded);
+        
+        // Set initial dimensions and draw first frame as soon as it's loaded
+        if (canvasRef.current && firstFrame) {
+          const windowWidth = window.innerWidth;
+          const windowHeight = window.innerHeight;
+          const imageAspectRatio = firstFrame.width / firstFrame.height;
+          let width, height;
+
+          if (windowWidth / windowHeight > imageAspectRatio) {
+            height = windowHeight;
+            width = height * imageAspectRatio;
+          } else {
+            width = windowWidth;
+            height = width / imageAspectRatio;
+          }
+
+          canvasRef.current.width = width;
+          canvasRef.current.height = height;
+          setDimensions({ width, height });
+          
+          const ctx = canvasRef.current.getContext("2d");
+          if (ctx) {
+            ctx.clearRect(0, 0, width, height);
+            ctx.drawImage(firstFrame, 0, 0, width, height);
+            setInitialRenderComplete(true);
+          }
+        }
+        
+        // Now load the rest of the frames in batches
+        loadRemainingFramesInBatches();
+      } catch (error) {
+        console.error("Error loading first frame:", error);
       }
+    };
+    
+    // Function to load remaining frames in batches to avoid resource exhaustion
+    const loadRemainingFramesInBatches = () => {
+      const batchSize = 5;
+      const loadBatch = (startIndex: number) => {
+        if (startIndex >= totalFrames) return;
+        
+        const endIndex = Math.min(startIndex + batchSize, totalFrames);
+        const batchPromises = [];
+        
+        for (let i = startIndex; i < endIndex; i++) {
+          batchPromises.push(
+            new Promise<void>((resolve) => {
+              const img = new Image();
+              img.onload = () => {
+                images.current[i] = img;
+                const newFramesLoaded = [...framesLoaded];
+                newFramesLoaded[i] = true;
+                setFramesLoaded(newFramesLoaded);
+                resolve();
+              };
+              img.onerror = () => {
+                console.error(`Failed to load frame ${i + 1}`);
+                resolve();
+              };
+              img.src = framePaths[i];
+            })
+          );
+        }
+        
+        Promise.all(batchPromises).then(() => {
+          // Load the next batch after a small delay
+          setTimeout(() => loadBatch(endIndex), 100);
+        });
+      };
+      
+      // Start loading from frame 1 (index 1) since we already loaded frame 0
+      loadBatch(1);
+    };
+    
+    loadFirstFrame();
+    window.addEventListener("resize", handleResize);
+    
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Force draw first frame when initial render completes
+  useEffect(() => {
+    if (initialRenderComplete && images.current[0]) {
+      drawFrame(0);
+      // Trigger scroll calculation manually to set the correct initial frame
+      handleScrollPosition();
+    }
+  }, [initialRenderComplete]);
+
+  // Handle scroll for animation
+  const handleScrollPosition = () => {
+    if (!containerRef.current || !canvasRef.current) return;
+
+    const container = containerRef.current;
+    const scrollTop = window.scrollY;
+    const containerRect = container.getBoundingClientRect();
+    const containerTop = containerRect.top + scrollTop;
+    const containerHeight = containerRect.height;
+
+    const progress = (scrollTop - containerTop) / (containerHeight - window.innerHeight);
+    const frameIndex = Math.min(
+      Math.max(0, Math.floor(progress * (totalFrames - 1))),
+      totalFrames - 1
+    );
+
+    if (frameIndex !== currentFrame && images.current[frameIndex]) {
+      setCurrentFrame(frameIndex);
+      drawFrame(frameIndex);
     }
   };
 
   useEffect(() => {
-    let loadedCount = 0;
+    if (!initialRenderComplete) return;
 
-    const preloadImages = async () => {
-      const loadImage = (src: string): Promise<HTMLImageElement> => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = () => resolve(img);
-          img.onerror = reject;
-          img.src = src;
-        });
-      };
-
-      try {
-        const firstFrame = await loadImage(framePaths[0]);
-        images.current[0] = firstFrame;
-        loadedCount++;
-        setLoadingProgress((loadedCount / totalFrames) * 100);
-
-        if (canvasRef.current) {
-          const ctx = canvasRef.current.getContext("2d");
-          ctx?.drawImage(firstFrame, 0, 0, firstFrame.width, firstFrame.height);
-        }
-
-        for (let i = 1; i < framePaths.length; i++) {
-          const img = await loadImage(framePaths[i]);
-          images.current[i] = img;
-          loadedCount++;
-          setLoadingProgress((loadedCount / totalFrames) * 100);
-        }
-
-        setIsLoading(false);
-        handleResize(); // Call handleResize after all images are loaded
-      } catch (error) {
-        console.error("Error loading frames:", error);
-      }
-    };
-
-    preloadImages();
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    if (!isLoading && images.current.length > 0 && canvasRef.current) {
-      const ctx = canvasRef.current.getContext("2d");
-      ctx?.drawImage(images.current[0], 0, 0, dimensions.width, dimensions.height);
-    }
-  }, [isLoading, dimensions]);
-
-  useEffect(() => {
-    if (!containerRef.current || isLoading) return;
-
-    const handleScroll = () => {
-      if (!containerRef.current || !canvasRef.current) return;
-
-      const container = containerRef.current;
-      const scrollTop = window.scrollY;
-      const containerRect = container.getBoundingClientRect();
-      const containerTop = containerRect.top + scrollTop;
-      const containerHeight = containerRect.height;
-
-      const progress = (scrollTop - containerTop) / (containerHeight - window.innerHeight);
-      const frameIndex = Math.min(
-        Math.max(0, Math.floor(progress * (totalFrames - 1))),
-        totalFrames - 1
-      );
-
-      if (frameIndex !== currentFrame) {
-        setCurrentFrame(frameIndex);
-        const ctx = canvasRef.current.getContext("2d");
-        const currentImage = images.current[frameIndex];
-
-        if (ctx && currentImage) {
-          ctx.clearRect(0, 0, dimensions.width, dimensions.height);
-          ctx.drawImage(currentImage, 0, 0, dimensions.width, dimensions.height);
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isLoading, dimensions, currentFrame]);
+    window.addEventListener("scroll", handleScrollPosition, { passive: true });
+    
+    // Important: Call once immediately to set correct frame without requiring scroll
+    handleScrollPosition();
+    
+    return () => window.removeEventListener("scroll", handleScrollPosition);
+  }, [dimensions, currentFrame, initialRenderComplete, framesLoaded]);
 
   return (
     <div className="relative">
@@ -155,14 +223,14 @@ const Hero3D = () => {
           <div className="flex-grow flex items-end justify-center">
             <canvas
               ref={canvasRef}
-              width={dimensions.width}
-              height={dimensions.height}
+              width={dimensions.width || 100} // Default size to prevent zero-sized canvas
+              height={dimensions.height || 100}
               className="max-w-full max-h-full object-contain"
               style={{ objectPosition: "bottom" }}
             />
           </div>
 
-          {/* Fading Text and Button (Centered Correctly) */}
+          {/* Fading Text and Button */}
           <div
             className={`absolute px-4 flex flex-col items-center gap-5 transition-opacity duration-500 transform ${
               currentFrame >= 30 && currentFrame <= 63
@@ -184,17 +252,8 @@ const Hero3D = () => {
             <Typography variant="body2" className="hero-text">
               Introducing Mark 1, the physical bookmark that tracks and summarizes the pages you read.
             </Typography>
-
             <WaitlistDialog />
           </div>
-
-          {isLoading && (
-            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-[#FCFCFC] bg-opacity-50">
-              <div className="text-black text-lg">
-                Loading frames... {Math.round(loadingProgress)}%
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>

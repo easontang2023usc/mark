@@ -5,11 +5,10 @@ import { useEffect, useRef, useState } from "react";
 export default function HowItWorksPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadingProgress, setLoadingProgress] = useState(0);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [currentFrame, setCurrentFrame] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   const images = useRef<HTMLImageElement[]>([]);
   const totalFrames = 55; // 002.jpg to 120.jpg
@@ -26,7 +25,7 @@ export default function HowItWorksPage() {
 
   // Handle canvas resizing and drawing
   const updateCanvas = (frameIndex: number) => {
-    if (!canvasRef.current || !images.current[frameIndex]) return;
+    if (!canvasRef.current || !images.current[frameIndex] || !imagesLoaded) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -39,7 +38,7 @@ export default function HowItWorksPage() {
   };
 
   const handleResize = () => {
-    if (!images.current[0] || !canvasRef.current) return;
+    if (!imagesLoaded || !images.current[0] || !canvasRef.current) return;
 
     const windowWidth = window.innerWidth;
     const imageAspectRatio = images.current[0].width / images.current[0].height;
@@ -53,94 +52,140 @@ export default function HowItWorksPage() {
     }
 
     setDimensions({ width, height });
-    canvasRef.current.width = width;
-    canvasRef.current.height = height;
-
-    // Draw the current frame immediately after resizing
-    updateCanvas(currentFrame);
+    
+    if (canvasRef.current) {
+      canvasRef.current.width = width;
+      canvasRef.current.height = height;
+      
+      // Draw the current frame immediately after resizing
+      updateCanvas(currentFrame);
+    }
   };
 
-  // Preload images and initialize canvas
+  // Load images into memory
   useEffect(() => {
-    let loadedCount = 0;
-
-    const preloadImages = async () => {
-      const loadImage = (src: string): Promise<HTMLImageElement> => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = () => {
-            loadedCount++;
-            setLoadingProgress((loadedCount / totalFrames) * 100);
-            resolve(img);
-          };
-          img.onerror = reject;
-          img.src = src;
-        });
-      };
-
+    // Skip loading if already loaded
+    if (imagesLoaded) return;
+    
+    const loadImages = async () => {
       try {
-        const loadedImages = await Promise.all(framePaths.map(loadImage));
+        // Create image objects for all frames
+        const loadedImages = await Promise.all(
+          framePaths.map(path => {
+            return new Promise<HTMLImageElement>((resolve) => {
+              const img = new Image();
+              
+              img.onload = () => resolve(img);
+              img.onerror = () => {
+                console.error(`Failed to load ${path}`);
+                resolve(img); // Resolve anyway to prevent blocking
+              };
+              
+              img.src = path;
+            });
+          })
+        );
+        
         images.current = loadedImages;
-        setIsLoading(false);
+        setImagesLoaded(true);
+        
+        // Initialize sizes once first image is loaded
+        if (loadedImages[0] && canvasRef.current) {
+          const windowWidth = window.innerWidth;
+          const imageAspectRatio = loadedImages[0].width / loadedImages[0].height;
+          let width = windowWidth;
+          let height = width / imageAspectRatio;
 
-        // Set initial dimensions and draw the first frame
-        handleResize(); // This ensures the canvas is sized and the first frame is drawn
-        setCurrentFrame(0); // Explicitly set to first frame
-        updateCanvas(0); // Draw the first frame immediately
+          const windowHeight = window.innerHeight;
+          if (height > windowHeight) {
+            height = windowHeight;
+            width = height * imageAspectRatio;
+          }
+
+          if (canvasRef.current) {
+            canvasRef.current.width = width;
+            canvasRef.current.height = height;
+            setDimensions({ width, height });
+          }
+          
+          // Draw the first frame immediately
+          updateCanvas(0);
+        }
       } catch (error) {
-        console.error("Error preloading frames:", error);
+        console.error("Error loading frames:", error);
       }
     };
 
-    preloadImages();
+    loadImages();
+  }, [framePaths]);
 
+  // Set up resize handler after images are loaded
+  useEffect(() => {
+    if (!imagesLoaded) return;
+    
+    // Set up resize listener
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    
+    // Manually trigger scroll calculation for initial position
+    requestAnimationFrame(() => {
+      handleResize();
+      handleScroll();
+    });
+    
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [imagesLoaded]);
 
   // Handle scroll for frame scrubbing and parallax effects
+  const handleScroll = () => {
+    if (!containerRef.current || !canvasRef.current || !imagesLoaded) return;
+
+    const container = containerRef.current;
+    const scrollTop = window.scrollY;
+    const containerRect = container.getBoundingClientRect();
+    const containerTop = containerRect.top + scrollTop;
+    const containerHeight = containerRect.height;
+
+    // Frame scrubbing progress
+    const frameProgress = (scrollTop - containerTop) / (containerHeight - window.innerHeight);
+    const frameIndex = Math.min(
+      Math.max(0, Math.floor(frameProgress * (totalFrames - 1))),
+      totalFrames - 1
+    );
+
+    // Parallax progress
+    const windowHeight = window.innerHeight;
+    const startPoint = windowHeight / 2;
+    const endPoint = startPoint - 550;
+    const elementTop = containerRect.top;
+    let parallaxProgress = 0;
+
+    if (elementTop <= startPoint && elementTop >= endPoint) {
+      parallaxProgress = (startPoint - elementTop) / 550;
+    } else if (elementTop < endPoint) {
+      parallaxProgress = 1;
+    }
+
+    setScrollProgress(Math.max(0, Math.min(parallaxProgress, 1)));
+    
+    if (frameIndex !== currentFrame) {
+      setCurrentFrame(frameIndex);
+      updateCanvas(frameIndex);
+    }
+  };
+
+  // Attach scroll handler after images are loaded
   useEffect(() => {
-    if (!containerRef.current || isLoading) return;
-
-    const handleScroll = () => {
-      if (!containerRef.current || !canvasRef.current) return;
-
-      const container = containerRef.current;
-      const scrollTop = window.scrollY;
-      const containerRect = container.getBoundingClientRect();
-      const containerTop = containerRect.top + scrollTop;
-      const containerHeight = containerRect.height;
-
-      // Frame scrubbing progress
-      const frameProgress = (scrollTop - containerTop) / (containerHeight - window.innerHeight);
-      const frameIndex = Math.min(
-        Math.max(0, Math.floor(frameProgress * (totalFrames - 1))),
-        totalFrames - 1
-      );
-
-      // Parallax progress
-      const windowHeight = window.innerHeight;
-      const startPoint = windowHeight / 2;
-      const endPoint = startPoint - 550;
-      const elementTop = containerRect.top;
-      let parallaxProgress = 0;
-
-      if (elementTop <= startPoint && elementTop >= endPoint) {
-        parallaxProgress = (startPoint - elementTop) / 550;
-      } else if (elementTop < endPoint) {
-        parallaxProgress = 1;
-      }
-
-      setScrollProgress(Math.max(0, Math.min(parallaxProgress, 1)));
-      if (frameIndex !== currentFrame) {
-        setCurrentFrame(frameIndex);
-        updateCanvas(frameIndex);
-      }
-    };
-
+    if (!imagesLoaded) return;
+    
     window.addEventListener("scroll", handleScroll, { passive: true });
+    
+    // Initial call to set up proper frame for current scroll position
+    requestAnimationFrame(handleScroll);
+    
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isLoading, dimensions, currentFrame]);
+  }, [imagesLoaded, dimensions]);
 
   // Dynamic styles
   const radius = initialRadius + (finalRadius - initialRadius) * scrollProgress;
@@ -148,9 +193,9 @@ export default function HowItWorksPage() {
   const padding = initialPadding + (finalPadding - initialPadding) * scrollProgress;
 
   return (
-    <main className="min-h-[80vh] bg-white ">
-      <div className=" mx-auto px-24 pt-20 ">
-        <div className="max-w-[1000px] ">
+    <main className="min-h-[80vh] bg-white">
+      <div className="mx-auto px-24 pt-20">
+        <div className="max-w-[1000px]">
           <h2 className="text-[21px] text-gray-600 font-medium">
             So easy to use
           </h2>
@@ -177,18 +222,13 @@ export default function HowItWorksPage() {
               style={{
                 borderRadius: `${radius}px`,
                 overflow: "hidden",
+                display: "block",
+                opacity: imagesLoaded ? 1 : 0, // Only show when images are loaded
+                transition: "opacity 300ms ease-in",
               }}
               className="max-w-full max-h-full object-contain"
             />
           </div>
-
-          {isLoading && (
-            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white bg-opacity-50">
-              <div className="text-black text-lg">
-                Loading frames... {Math.round(loadingProgress)}%
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </main>
