@@ -8,58 +8,58 @@ import WaitlistDialog from "./waitlistForm";
 const Hero3D = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const images = useRef<HTMLImageElement[]>([]);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [currentFrame, setCurrentFrame] = useState(0);
-  const [initialRenderComplete, setInitialRenderComplete] = useState(false);
-  const [framesLoaded, setFramesLoaded] = useState<boolean[]>([]);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
-  const images = useRef<HTMLImageElement[]>([]);
   const totalFrames = 85;
   const framePaths = Array.from({ length: totalFrames }, (_, i) =>
     `/Mark_Assets/frames2/frame-${String(i + 1).padStart(4, "0")}.png`
   );
 
-  // Define drawFrame first since it's used by other functions
-  const drawFrame = useCallback((frameIndex: number) => {
-    if (!canvasRef.current || !images.current[frameIndex]) return;
-    
-    const ctx = canvasRef.current.getContext("2d");
-    const currentImage = images.current[frameIndex];
+  /** Function to draw a frame */
+  const updateCanvas = useCallback(
+    (frameIndex: number) => {
+      if (!canvasRef.current || !images.current[frameIndex] || !imagesLoaded) return;
 
-    if (ctx && currentImage) {
-      ctx.clearRect(0, 0, dimensions.width, dimensions.height);
-      ctx.drawImage(currentImage, 0, 0, dimensions.width, dimensions.height);
-    }
-  }, [dimensions.width, dimensions.height]);
+      const ctx = canvasRef.current.getContext("2d");
+      if (ctx) {
+        ctx.clearRect(0, 0, dimensions.width, dimensions.height);
+        ctx.drawImage(images.current[frameIndex], 0, 0, dimensions.width, dimensions.height);
+      }
+    },
+    [dimensions, imagesLoaded]
+  );
 
-  // Then define handleResize which uses drawFrame
+  /** Function to resize canvas dynamically */
   const handleResize = useCallback(() => {
-    if (!images.current[0] || !canvasRef.current) return;
+    if (!imagesLoaded || !images.current[0] || !canvasRef.current) return;
 
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
     const imageAspectRatio = images.current[0].width / images.current[0].height;
-    let width, height;
 
-    if (windowWidth / windowHeight > imageAspectRatio) {
+    let width = windowWidth;
+    let height = width / imageAspectRatio;
+
+    if (height > windowHeight) {
       height = windowHeight;
       width = height * imageAspectRatio;
-    } else {
-      width = windowWidth;
-      height = width / imageAspectRatio;
     }
 
-    setDimensions({ width, height });
+    setDimensions((prev) => (prev.width !== width || prev.height !== height ? { width, height } : prev));
 
-    canvasRef.current.width = width;
-    canvasRef.current.height = height;
-    
-    drawFrame(currentFrame);
-  }, [currentFrame, drawFrame]);
+    if (canvasRef.current) {
+      canvasRef.current.width = width;
+      canvasRef.current.height = height;
+      updateCanvas(currentFrame);
+    }
+  }, [imagesLoaded, currentFrame, updateCanvas]);
 
-  // Finally define handleScrollPosition which uses both
-  const handleScrollPosition = useCallback(() => {
-    if (!containerRef.current || !canvasRef.current) return;
+  /** Function to handle scrolling animation */
+  const handleScroll = useCallback(() => {
+    if (!containerRef.current || !canvasRef.current || !imagesLoaded) return;
 
     const container = containerRef.current;
     const scrollTop = window.scrollY;
@@ -67,142 +67,75 @@ const Hero3D = () => {
     const containerTop = containerRect.top + scrollTop;
     const containerHeight = containerRect.height;
 
-    const progress = (scrollTop - containerTop) / (containerHeight - window.innerHeight);
+    const frameProgress = (scrollTop - containerTop) / (containerHeight - window.innerHeight);
     const frameIndex = Math.min(
-      Math.max(0, Math.floor(progress * (totalFrames - 1))),
+      Math.max(0, Math.floor(frameProgress * (totalFrames - 1))),
       totalFrames - 1
     );
 
-    if (frameIndex !== currentFrame && images.current[frameIndex]) {
+    if (frameIndex !== currentFrame) {
       setCurrentFrame(frameIndex);
-      drawFrame(frameIndex);
+      updateCanvas(frameIndex);
     }
-  }, [currentFrame, totalFrames, drawFrame]);
+  }, [imagesLoaded, currentFrame, totalFrames, updateCanvas]);
 
-  // Priority loading for frames
+  /** Load images into memory */
   useEffect(() => {
-    // Initialize frames loaded array with all false
-    setFramesLoaded(Array(totalFrames).fill(false));
-    
-    // First, load just the first frame with high priority
-    const loadFirstFrame = async () => {
+    if (imagesLoaded) return;
+
+    const loadImages = async () => {
       try {
-        const firstImg = new Image();
-        const firstLoadPromise = new Promise<HTMLImageElement>((resolve) => {
-          firstImg.onload = () => resolve(firstImg);
-          firstImg.onerror = () => {
-            console.error(`Failed to load first frame`);
-            resolve(firstImg);
-          };
-          firstImg.src = framePaths[0];
-        });
+        const loadedImages = await Promise.all(
+          framePaths.map((path) =>
+            new Promise<HTMLImageElement>((resolve) => {
+              const img = new Image();
+              img.onload = () => resolve(img);
+              img.onerror = () => resolve(img);
+              img.src = path;
+            })
+          )
+        );
 
-        const firstFrame = await firstLoadPromise;
-        images.current[0] = firstFrame;
-        
-        const newFramesLoaded = [...framesLoaded];
-        newFramesLoaded[0] = true;
-        setFramesLoaded(newFramesLoaded);
-        
-        // Set initial dimensions and draw first frame as soon as it's loaded
-        if (canvasRef.current && firstFrame) {
-          const windowWidth = window.innerWidth;
-          const windowHeight = window.innerHeight;
-          const imageAspectRatio = firstFrame.width / firstFrame.height;
-          let width, height;
+        images.current = loadedImages;
+        setImagesLoaded(true);
 
-          if (windowWidth / windowHeight > imageAspectRatio) {
-            height = windowHeight;
-            width = height * imageAspectRatio;
-          } else {
-            width = windowWidth;
-            height = width / imageAspectRatio;
-          }
-
-          canvasRef.current.width = width;
-          canvasRef.current.height = height;
-          setDimensions({ width, height });
-          
-          const ctx = canvasRef.current.getContext("2d");
-          if (ctx) {
-            ctx.clearRect(0, 0, width, height);
-            ctx.drawImage(firstFrame, 0, 0, width, height);
-            setInitialRenderComplete(true);
-          }
+        if (loadedImages[0]) {
+          handleResize();
+          updateCanvas(0);
         }
-        
-        // Now load the rest of the frames in batches
-        loadRemainingFramesInBatches();
       } catch (error) {
-        console.error("Error loading first frame:", error);
+        console.error("Error loading frames:", error);
       }
     };
-    
-    // Function to load remaining frames in batches to avoid resource exhaustion
-    const loadRemainingFramesInBatches = () => {
-      const batchSize = 5;
-      const loadBatch = (startIndex: number) => {
-        if (startIndex >= totalFrames) return;
-        
-        const endIndex = Math.min(startIndex + batchSize, totalFrames);
-        const batchPromises = [];
-        
-        for (let i = startIndex; i < endIndex; i++) {
-          batchPromises.push(
-            new Promise<void>((resolve) => {
-              const img = new Image();
-              img.onload = () => {
-                images.current[i] = img;
-                const newFramesLoaded = [...framesLoaded];
-                newFramesLoaded[i] = true;
-                setFramesLoaded(newFramesLoaded);
-                resolve();
-              };
-              img.onerror = () => {
-                console.error(`Failed to load frame ${i + 1}`);
-                resolve();
-              };
-              img.src = framePaths[i];
-            })
-          );
-        }
-        
-        Promise.all(batchPromises).then(() => {
-          // Load the next batch after a small delay
-          setTimeout(() => loadBatch(endIndex), 100);
-        });
-      };
-      
-      // Start loading from frame 1 (index 1) since we already loaded frame 0
-      loadBatch(1);
-    };
-    
-    loadFirstFrame();
+
+    loadImages();
+  }, [framePaths, imagesLoaded, updateCanvas, handleResize]);
+
+  /** Scroll event listener */
+  useEffect(() => {
+    if (!imagesLoaded) return;
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    requestAnimationFrame(handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [imagesLoaded, handleScroll]);
+
+  /** Resize event listener */
+  useEffect(() => {
+    if (!imagesLoaded) return;
+
     window.addEventListener("resize", handleResize);
-    
+    requestAnimationFrame(() => {
+      handleResize();
+      handleScroll();
+    });
+
     return () => window.removeEventListener("resize", handleResize);
-  }, [framePaths, framesLoaded, handleResize]);
-
-  // Update useEffect dependencies
-  useEffect(() => {
-    if (initialRenderComplete && images.current[0]) {
-      drawFrame(0);
-      handleScrollPosition();
-    }
-  }, [initialRenderComplete, drawFrame, handleScrollPosition]);
-
-  useEffect(() => {
-    if (!initialRenderComplete) return;
-
-    window.addEventListener("scroll", handleScrollPosition, { passive: true });
-    handleScrollPosition();
-    
-    return () => window.removeEventListener("scroll", handleScrollPosition);
-  }, [initialRenderComplete, handleScrollPosition]);
+  }, [imagesLoaded, handleResize, handleScroll]);
 
   return (
     <div className="relative overflow-x-clip">
-      {/* Section before animation starts */}
       <div className="py-[2%] flex flex-col items-center justify-center text-center bg-[#FCFCFC] px-6 pt-40">
         <Typography
           variant="h1"
@@ -212,26 +145,21 @@ const Hero3D = () => {
         </Typography>
       </div>
 
-      {/* Scrollable animation section */}
-      <div ref={containerRef} className="relative h-[300vh]">
+      <div ref={containerRef} className="relative h-[500vh]">
         <div className="sticky top-0 w-screen h-screen flex flex-col justify-between bg-[#FCFCFC]">
-          {/* Canvas positioned at bottom */}
           <div className="flex-grow flex items-end justify-center">
             <canvas
               ref={canvasRef}
-              width={dimensions.width || 100} // Default size to prevent zero-sized canvas
+              width={dimensions.width || 100}
               height={dimensions.height || 100}
               className="max-w-full max-h-full object-contain"
               style={{ objectPosition: "bottom" }}
             />
           </div>
 
-          {/* Fading Text and Button */}
           <div
             className={`absolute px-4 flex flex-col items-center gap-5 transition-opacity duration-500 transform ${
-              currentFrame >= 30 && currentFrame <= 63
-                ? "opacity-100"
-                : "opacity-0"
+              currentFrame >= 30 && currentFrame <= 63 ? "opacity-100" : "opacity-0"
             }`}
             style={{
               top: "15vh",
@@ -239,10 +167,10 @@ const Hero3D = () => {
               transform: "translateX(-50%)",
               width: "100%",
               maxWidth: "600px",
-              textAlign: "center"
+              textAlign: "center",
             }}
           >
-            <Typography variant="h2" className="text-black w-[700]" >
+            <Typography variant="h2" className="text-black w-[700]">
               Unlock your intellectual potential
             </Typography>
             <Typography variant="body1" className="hero-text w-[1000px]">
@@ -250,6 +178,12 @@ const Hero3D = () => {
             </Typography>
             <WaitlistDialog />
           </div>
+
+          {!imagesLoaded && (
+            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-[#FCFCFC] bg-opacity-50">
+              <div className="text-black text-lg">Loading frames...</div>
+            </div>
+          )}
         </div>
       </div>
     </div>

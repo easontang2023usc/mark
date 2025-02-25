@@ -53,7 +53,7 @@ const DesktopNavbar: FC = () => {
         <div className="relative h-7 w-28">
           <Link href="/">
             <Image
-              src="/Mark_Assets/Mark_logo_full_white.png"
+              src="/Mark_Assets/mark_logo_full_white.png"
               alt="Mark Logo"
               fill
               className="object-contain"
