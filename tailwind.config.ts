@@ -2,14 +2,13 @@ import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 import colors from "tailwindcss/colors";
 
-// Import as any and then cast to the type we want
 const flattenColorPalette = require("tailwindcss/lib/util/flattenColorPalette") as (
   colors: object
 ) => { [key: string]: string };
 
 const addVariablesForColors = ({ addBase, theme }: any) => {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
+  const allColors = flattenColorPalette(theme("colors"));
+  const newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
 
@@ -21,12 +20,10 @@ const addVariablesForColors = ({ addBase, theme }: any) => {
 const config: Config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',        // Adjusted for common Next.js structure
     './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
-  prefix: "",
   theme: {
     container: {
       center: true,
