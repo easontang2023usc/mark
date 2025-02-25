@@ -18,25 +18,25 @@ const features: Feature[] = [
     category: "",
     title: "Learn Everything",
     description: "Mark help you retain knowledge.",
-    src: "/Mark_Assets/learning.svg",
+    src: "/Mark_Assets/learning.jpg",
   },
   {
     category: "",
     title: "Titanium Grade 5",
     description: "Same material as Boeing 777.",
-    src: "/Mark_Assets/titanium.svg",
+    src: "/Mark_Assets/titanium.jpg",
   },
   {
     category: "",
     title: "Gamifying Reading",
     description: "Data and friends motivate you to keep learning.",
-    src: "/Mark_Assets/social.svg",
+    src: "/Mark_Assets/social.jpg",
   },
   {
     category: "",
     title: "Design That Just Works",
     description: "So sleek, it becomes part of the lifestyle.",
-    src: "/Mark_Assets/premium.svg",
+    src: "/Mark_Assets/premium.jpg",
   },
 ];
 

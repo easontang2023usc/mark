@@ -60,7 +60,7 @@ export const ContainerScroll = () => {
       className="h-[55rem] md:h-[70rem] flex items-center justify-center relative p-4 md:p-20"
       ref={containerRef}
     >
-      <div className="py-10 md:py-40 w-full relative max-w-6xl mx-auto pt-56">
+      <div className="py-10 md:py-40 w-full relative max-w-6xl mx-auto pt-60">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
           {/* iPhone and Tabs Container */}
           <div className="flex flex-col items-center gap-6 md:gap-4" style={{ perspective: "1000px" }}>

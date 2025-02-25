@@ -94,7 +94,7 @@ export default function CameraFeature() {
           <button
             onClick={togglePlayPause}
             className="relative z-10 py-2 px-6 rounded-lg text-sm font-medium text-blue-500 bg-white 
-                       hover:text-blue-600 transition-colors shadow-sm"
+                       hover:text-blue-600 transition-colors "
             type="button"
           >
             {isVideoEnded ? 'Replay' : isPlaying ? 'Pause' : 'Play'}

@@ -18,13 +18,13 @@ const DockTabs = ({
   const renderContent = () => {
     switch (activeTab) {
       case "Summary":
-        return { image: "/Mark_Assets/summary.svg", text: "Review key takeaways from your latest reading." };
+        return { image: "/Mark_Assets/summary.jpg", text: "Review key takeaways from your latest reading." };
       case "Friends":
-        return { image: "/Mark_Assets/friends.svg", text: "See what your friends are reading and share insights." };
+        return { image: "/Mark_Assets/friends.jpg", text: "See what your friends are reading and share insights." };
       case "Games":
-        return { image: "/Mark_Assets/games.svg", text: "Engage in interactive reading challenges and games." };
+        return { image: "/Mark_Assets/games.jpg", text: "Engage in interactive reading challenges and games." };
       case "Data":
-        return { image: "/Mark_Assets/Data.svg", text: "Visualize your reading habits and track progress." };
+        return { image: "/Mark_Assets/Data.jpg", text: "Visualize your reading habits and track progress." };
       default:
         return {};
     }
