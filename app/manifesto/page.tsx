@@ -6,7 +6,7 @@ import WaitlistDialog from '@/components/waitlistForm';
 export default function Manifesto() {
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans antialiased">
+    <div className="min-h-screen bg-white text-gray-900 font-sans antialiased mt-12">
       <Head>
         <title>Mark | Unlock your Intellectual Potential</title>
         <meta name="description" content="Mark - The AI-Enhanced Bookmark for print books" />
@@ -79,7 +79,7 @@ export default function Manifesto() {
               <li className="flex gap-3">
                 <span className="text-gray-400">•</span>
                 <span>
-                  Reading <strong>sparks curiosity</strong> and <strong>cultivates growth</strong>—but only if you remember what you've learned.
+                  Reading <strong>sparks curiosity</strong> and <strong>cultivates growth</strong>&mdash;but only if you remember what you&apos;ve learned.
                 </span>
               </li>
               <li className="flex gap-3">
@@ -91,7 +91,7 @@ export default function Manifesto() {
               <li className="flex gap-3">
                 <span className="text-gray-400">•</span>
                 <span>
-                  A <strong>community-powered</strong> ecosystem inspires accountability, much like "Strava for books."
+                  A <strong>community-powered</strong> ecosystem inspires accountability, much like &ldquo;Strava for books.&rdquo;
                 </span>
               </li>
             </ul>

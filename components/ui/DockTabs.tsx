@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import Typography from "@/components/ui/Typography"; // Import Typography
+import Typography from "@/components/ui/Typography";
+import Image from "next/image";
 
 const tabs = ["Summary", "Friends", "Games", "Data"];
 
@@ -40,8 +40,14 @@ const DockTabs = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Ensure image never covers iPhone island */}
-      <img src={content.image} alt={activeTab} className="max-w-[112%] mt-3 relative z-10" />
+      <Image 
+        src={content.image || ''} 
+        alt={activeTab}
+        width={500}
+        height={500}
+        className="max-w-[112%] mt-3 relative z-10"
+        priority
+      />
     </motion.div>
   ) : (
     <div className="mt-6 flex items-center justify-center bg-white p-3 rounded-full shadow-md relative">

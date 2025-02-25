@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
       
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">1. Introduction</h2>
-        <p>Welcome to Mark ("Company", "we", "our", "us"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, [Website URL], and purchase our tech gadgets. Please read this policy carefully. If you do not agree with the terms of this Privacy Policy, please do not access the site.</p>
+        <p>Welcome to Mark (&quot;Company&quot;, &quot;we&quot;, &quot;our&quot;, &quot;us&quot;). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, [Website URL], and purchase our tech gadgets. Please read this policy carefully. If you do not agree with the terms of this Privacy Policy, please do not access the site.</p>
       </section>
       
       <section className="mb-6">
@@ -61,7 +61,7 @@ const PrivacyPolicy = () => {
       </section>
       
       <section className="mb-6">
-        <h2 className="text-2xl font-semibold mb-2">8. Children's Privacy</h2>
+        <h2 className="text-2xl font-semibold mb-2">8. Children&apos;s Privacy</h2>
         <p>Our website is not intended for children under the age of 13. We do not knowingly collect personal information from children.</p>
       </section>
       
@@ -84,4 +84,3 @@ const PrivacyPolicy = () => {
 };
 
 export default PrivacyPolicy;
-

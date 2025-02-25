@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Typography from "@/components/ui/Typography";
 import "../styles/Hero.css";
 import WaitlistDialog from "./waitlistForm";
@@ -19,8 +19,21 @@ const Hero3D = () => {
     `/Mark_Assets/frames2/frame-${String(i + 1).padStart(4, "0")}.png`
   );
 
-  // Define handleResize function
-  const handleResize = () => {
+  // Define drawFrame first since it's used by other functions
+  const drawFrame = useCallback((frameIndex: number) => {
+    if (!canvasRef.current || !images.current[frameIndex]) return;
+    
+    const ctx = canvasRef.current.getContext("2d");
+    const currentImage = images.current[frameIndex];
+
+    if (ctx && currentImage) {
+      ctx.clearRect(0, 0, dimensions.width, dimensions.height);
+      ctx.drawImage(currentImage, 0, 0, dimensions.width, dimensions.height);
+    }
+  }, [dimensions.width, dimensions.height]);
+
+  // Then define handleResize which uses drawFrame
+  const handleResize = useCallback(() => {
     if (!images.current[0] || !canvasRef.current) return;
 
     const windowWidth = window.innerWidth;
@@ -41,22 +54,30 @@ const Hero3D = () => {
     canvasRef.current.width = width;
     canvasRef.current.height = height;
     
-    // Always redraw after resize
     drawFrame(currentFrame);
-  };
+  }, [currentFrame, drawFrame]);
 
-  // Helper function to draw a specific frame
-  const drawFrame = (frameIndex: number) => {
-    if (!canvasRef.current || !images.current[frameIndex]) return;
-    
-    const ctx = canvasRef.current.getContext("2d");
-    const currentImage = images.current[frameIndex];
+  // Finally define handleScrollPosition which uses both
+  const handleScrollPosition = useCallback(() => {
+    if (!containerRef.current || !canvasRef.current) return;
 
-    if (ctx && currentImage) {
-      ctx.clearRect(0, 0, dimensions.width, dimensions.height);
-      ctx.drawImage(currentImage, 0, 0, dimensions.width, dimensions.height);
+    const container = containerRef.current;
+    const scrollTop = window.scrollY;
+    const containerRect = container.getBoundingClientRect();
+    const containerTop = containerRect.top + scrollTop;
+    const containerHeight = containerRect.height;
+
+    const progress = (scrollTop - containerTop) / (containerHeight - window.innerHeight);
+    const frameIndex = Math.min(
+      Math.max(0, Math.floor(progress * (totalFrames - 1))),
+      totalFrames - 1
+    );
+
+    if (frameIndex !== currentFrame && images.current[frameIndex]) {
+      setCurrentFrame(frameIndex);
+      drawFrame(frameIndex);
     }
-  };
+  }, [currentFrame, totalFrames, drawFrame]);
 
   // Priority loading for frames
   useEffect(() => {
@@ -160,52 +181,27 @@ const Hero3D = () => {
     window.addEventListener("resize", handleResize);
     
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [framePaths, framesLoaded, handleResize]);
 
-  // Force draw first frame when initial render completes
+  // Update useEffect dependencies
   useEffect(() => {
     if (initialRenderComplete && images.current[0]) {
       drawFrame(0);
-      // Trigger scroll calculation manually to set the correct initial frame
       handleScrollPosition();
     }
-  }, [initialRenderComplete]);
-
-  // Handle scroll for animation
-  const handleScrollPosition = () => {
-    if (!containerRef.current || !canvasRef.current) return;
-
-    const container = containerRef.current;
-    const scrollTop = window.scrollY;
-    const containerRect = container.getBoundingClientRect();
-    const containerTop = containerRect.top + scrollTop;
-    const containerHeight = containerRect.height;
-
-    const progress = (scrollTop - containerTop) / (containerHeight - window.innerHeight);
-    const frameIndex = Math.min(
-      Math.max(0, Math.floor(progress * (totalFrames - 1))),
-      totalFrames - 1
-    );
-
-    if (frameIndex !== currentFrame && images.current[frameIndex]) {
-      setCurrentFrame(frameIndex);
-      drawFrame(frameIndex);
-    }
-  };
+  }, [initialRenderComplete, drawFrame, handleScrollPosition]);
 
   useEffect(() => {
     if (!initialRenderComplete) return;
 
     window.addEventListener("scroll", handleScrollPosition, { passive: true });
-    
-    // Important: Call once immediately to set correct frame without requiring scroll
     handleScrollPosition();
     
     return () => window.removeEventListener("scroll", handleScrollPosition);
-  }, [dimensions, currentFrame, initialRenderComplete, framesLoaded]);
+  }, [initialRenderComplete, handleScrollPosition]);
 
   return (
-    <div className="relative">
+    <div className="relative overflow-x-clip">
       {/* Section before animation starts */}
       <div className="py-[2%] flex flex-col items-center justify-center text-center bg-[#FCFCFC] px-6 pt-40">
         <Typography

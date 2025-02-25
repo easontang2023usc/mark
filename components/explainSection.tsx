@@ -60,30 +60,24 @@ export default function CameraFeature() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto min-h-[40vh]">
-      <div className="flex flex-col md:flex-row gap-6 items-center">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-[40vh]">
+      <div className="flex flex-col md:flex-row gap-8 items-center">
         {/* Left side text */}
-        <div className="w-full z-20 md:w-1/2 text-gray-800 space-y-4 text-xl">
+        <div className="w-full z-20 md:w-1/2 text-gray-800 space-y-4 text-base sm:text-lg md:text-xl">
           <p>
             Designed to integrate effortlessly into your reading routine, Mark
-            enhances your experience without disrupting your flow. 
+            enhances your experience without disrupting your flow.
           </p>
           <p>
-            Simply read
-            as usual, set your page number when done, and let Mark take care of
+            Simply read as usual, set your page number when done, and let Mark take care of
             the rest.
-            </p>
-          {/* <p>
-            With its intelligent tracking and intuitive design, Mark ensures you
-            never lose your place—bringing a new level of convenience to your
-            reading habits.
-          </p> */}
+          </p>
         </div>
 
         {/* Right side: video above, button below */}
         <div className="w-full md:w-1/2 flex flex-col items-center gap-4">
           {/* Video container */}
-          <div className="relative w-full md:w-[600px] aspect-[16/9] rounded-lg overflow-hidden pl-10">
+          <div className="relative w-full rounded-lg overflow-hidden">
             <video
               ref={videoRef}
               className="relative z-0 w-full h-full object-cover"
@@ -99,8 +93,8 @@ export default function CameraFeature() {
           {/* Play/Pause Button */}
           <button
             onClick={togglePlayPause}
-            className="relative z-10 py-2 px-4 rounded-lg text-sm text-blue-500 bg-white 
-                       hover:text-blue-600 transition-colors"
+            className="relative z-10 py-2 px-6 rounded-lg text-sm font-medium text-blue-500 bg-white 
+                       hover:text-blue-600 transition-colors shadow-sm"
             type="button"
           >
             {isVideoEnded ? 'Replay' : isPlaying ? 'Pause' : 'Play'}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 interface LoadingScreenProps {
   onLoadComplete: () => void;
@@ -24,31 +25,28 @@ export default function LoadingScreen({
 
   // Force progress even if assets are loading slowly
   useEffect(() => {
-    // Start at 25% immediately instead of 5% or 1%
     actualProgressRef.current = 25;
     
-    // Define progress steps that will occur regardless of actual loading
     const forceProgressSteps = [
       { progress: 50, delay: 300 },
       { progress: 75, delay: 800 },
       { progress: 90, delay: 1500 },
     ];
     
-    // Schedule the forced progress steps
+    const timers: NodeJS.Timeout[] = [];
+    
     forceProgressSteps.forEach(({progress, delay}) => {
-      setTimeout(() => {
-        // Only update if actual progress hasn't passed this point yet
+      const timer = setTimeout(() => {
         if (actualProgressRef.current < progress) {
           actualProgressRef.current = progress;
         }
       }, delay);
+      timers.push(timer);
     });
     
     // Cleanup
     return () => {
-      if (progressStepTimer.current) {
-        clearTimeout(progressStepTimer.current);
-      }
+      timers.forEach(timer => clearTimeout(timer));
     };
   }, []);
 
@@ -207,7 +205,7 @@ export default function LoadingScreen({
       
       currentBatch.forEach(src => {
         try {
-          const img = new Image();
+          const img = document.createElement('img') as HTMLImageElement;
           
           img.onload = () => {
             updateProgress();
@@ -255,13 +253,21 @@ export default function LoadingScreen({
       loadImageBatch(0);
     }
 
+    // Store the current timer reference
+    let currentProgressTimer: NodeJS.Timeout | null = null;
+
+    // Update the timer assignment
+    if (progressStepTimer.current) {
+      currentProgressTimer = progressStepTimer.current;
+    }
+
     // Cleanup function
     return () => {
       if (animationFrameRef.current !== null) {
         cancelAnimationFrame(animationFrameRef.current);
       }
-      if (progressStepTimer.current !== null) {
-        clearTimeout(progressStepTimer.current);
+      if (currentProgressTimer !== null) {
+        clearTimeout(currentProgressTimer);
       }
     };
   }, [videoSources, imageSequences, onLoadComplete, minimumLoadTime, loadStartTime]);
@@ -270,14 +276,16 @@ export default function LoadingScreen({
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black">
-      <div className="mb-8">
-        <img 
+      <div className="mb-8 relative w-48 h-24">
+        <Image 
           src="/Mark_Assets/mark_logo_full_white.png" 
           alt="Mark Logo"
-          className="w-48 h-auto"
+          fill
           style={{
-            animation: 'pulse 2s infinite ease-in-out, float 3s infinite ease-in-out'
+            animation: 'pulse 2s infinite ease-in-out, float 3s infinite ease-in-out',
+            objectFit: 'contain'
           }}
+          priority
         />
       </div>
       <div className="w-64 h-2 bg-gray-700 rounded-full overflow-hidden">

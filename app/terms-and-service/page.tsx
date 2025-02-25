@@ -9,7 +9,7 @@ const TermsOfService = () => {
       <p className="text-gray-600 text-center">Effective Date: January 1, 2025</p>
 
       <p className="text-gray-800">
-        Welcome to <strong>Mark</strong> ("we," "our," or "us"). By accessing or using our website, services, and products (collectively, the "Services"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our Services.
+        Welcome to <strong>Mark</strong> (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;). By accessing or using our website, services, and products (collectively, the &ldquo;Services&rdquo;), you agree to be bound by these Terms of Service (&ldquo;Terms&rdquo;). If you do not agree to these Terms, please do not use our Services.
       </p>
 
       <h2 className="text-2xl font-semibold">1. Acceptance of Terms</h2>
@@ -47,7 +47,7 @@ const TermsOfService = () => {
 
       <h2 className="text-2xl font-semibold">7. Disclaimers & Limitation of Liability</h2>
       <p className="text-gray-800">
-        Our Services are provided "as is" without warranties of any kind. We do not guarantee uninterrupted or error-free operation. To the fullest extent permitted by law, we disclaim liability for any direct, indirect, incidental, or consequential damages arising from the use of our Services.
+        Our Services are provided &ldquo;as is&rdquo; without warranties of any kind. We do not guarantee uninterrupted or error-free operation. To the fullest extent permitted by law, we disclaim liability for any direct, indirect, incidental, or consequential damages arising from the use of our Services.
       </p>
 
       <h2 className="text-2xl font-semibold">8. Termination</h2>

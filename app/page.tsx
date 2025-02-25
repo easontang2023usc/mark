@@ -5,14 +5,17 @@ import BentoBox from "@/components/BentoBox";
 import FinalJoinWaitlist from "@/components/FinalJoinWaitlist";
 import ContainerScroll from "@/components/ContainerScroll";
 import Hero3D from "@/components/Hero3D";
+import MobileHero from '@/components/mobileHero';
 import LoadingScreen from "@/components/loadingScreen";
 import HowItWorksPage from "@/components/HowItWorks";
 import ExplainSection from "@/components/explainSection";
 import StickyScrollDemo from "@/components/StickyScrollDemo";
+import MobileHowItWorksPage from '@/components/mobileHowItWorks';
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [contentVisible, setContentVisible] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   
   // Define the image sequences to preload - prioritize important frames only
   
@@ -32,6 +35,22 @@ export default function Home() {
     criticalHeroFrames
   ];
 
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // Common breakpoint for mobile
+    };
+    
+    // Check on initial load
+    checkMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const handleLoadComplete = () => {
     // Mark as loaded first
     setIsLoaded(true);
@@ -40,8 +59,10 @@ export default function Home() {
     setTimeout(() => {
       setContentVisible(true);
       
-      // Load the remaining frames after the page is visible
-      loadRemainingFrames();
+      // Only load remaining frames if on desktop
+      if (!isMobile) {
+        loadRemainingFrames();
+      }
     }, 300);
   };
   
@@ -98,9 +119,9 @@ export default function Home() {
           className="transition-opacity duration-500 ease-in" 
           style={{ opacity: contentVisible ? 1 : 0 }}
         >
-          <Hero3D />
+          {isMobile ? <MobileHero /> : <Hero3D />}
           <StickyScrollDemo />
-          <HowItWorksPage />
+          {isMobile ? <MobileHowItWorksPage /> : <HowItWorksPage />}
           <ExplainSection />
           <ContainerScroll />
           <BentoBox />
