@@ -150,7 +150,7 @@ function WaitlistForm({ onSuccess }: WaitlistFormProps) {
       <Input
         type="text"
         name="book"
-        placeholder="What book are you currently reading? (Optional)"
+        placeholder="Currently reading? (Optional)"
         value={formData.book}
         onChange={handleChange}
         disabled={isLoading}

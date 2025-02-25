@@ -52,7 +52,7 @@ export function MobileWaitlist({ onSuccess }: MobileWaitlistProps) {
                 <X size={24} />
               </button>
             </div>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-6 text-[0.9rem] pb-4">
               We&apos;re excited to learn more about what you&apos;re reading! Join our waitlist to stay updated.
             </p>
             <MobileWaitlistForm 
@@ -187,7 +187,7 @@ function MobileWaitlistForm({ onSuccess }: MobileWaitlistProps) {
       <Input
         type="text"
         name="book"
-        placeholder="What book are you currently reading? (Optional)"
+        placeholder="Currently reading? (Optional)"
         value={formData.book}
         onChange={handleChange}
         disabled={isLoading}
@@ -198,7 +198,7 @@ function MobileWaitlistForm({ onSuccess }: MobileWaitlistProps) {
         type="button"
         onClick={handleSubmit}
         disabled={isLoading}
-        className={`w-full p-5 mt-4 text-white rounded-xl transition-colors duration-300 ${
+        className={`w-full p-5 tracking-wide text-white rounded-xl transition-colors duration-300 ${
           isFormValid 
             ? "bg-[#FB6839] hover:bg-[#D4502A]" 
             : "bg-gray-400 hover:bg-gray-500"

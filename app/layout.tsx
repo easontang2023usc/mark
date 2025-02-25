@@ -50,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta charSet="UTF-8" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <meta name="author" content="Your Name or Company" />
+        <meta name="Mark" content="Mark" />
       </head>
       <body>
         <Navbar />
