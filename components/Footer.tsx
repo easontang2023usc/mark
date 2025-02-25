@@ -35,18 +35,33 @@ export default function Footer() {
               <Typography variant="body2">Returns</Typography>
             </a> */}
           </div>
-          
           <div className="flex gap-6">
-            <a href="#" className="text-black hover:text-[#FB6839] transition-colors mt-2">
+            <a 
+              href="https://x.com/markhardware" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-black hover:text-[#FB6839] transition-colors mt-2"
+            >
               <Typography variant="body2">X</Typography>
             </a>
-            <a href="#" className="text-black hover:text-[#FB6839] transition-colors mt-2">
-              <Typography variant="body2">Linkedin</Typography>
+            <a 
+              href="https://www.linkedin.com/company/markhardware" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-black hover:text-[#FB6839] transition-colors mt-2"
+            >
+              <Typography variant="body2">LinkedIn</Typography>
             </a>
-            <a href="#" className="text-black hover:text-[#FB6839] transition-colors mt-2">
+            <a 
+              href="https://www.instagram.com/mark.engineering" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-black hover:text-[#FB6839] transition-colors mt-2"
+            >
               <Typography variant="body2">Instagram</Typography>
             </a>
           </div>
+         
           <Typography variant="body2" className="text-gray-500">
             Designed in Los Angeles
           </Typography>

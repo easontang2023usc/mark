@@ -24,39 +24,43 @@ export default function HowItWorksPage() {
   const initialRadius = 0;
   const finalRadius = 32;
 
-  // Handle canvas resizing
+  // Handle canvas resizing and drawing
+  const updateCanvas = (frameIndex: number) => {
+    if (!canvasRef.current || !images.current[frameIndex]) return;
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    const currentImage = images.current[frameIndex];
+
+    if (ctx && currentImage) {
+      ctx.clearRect(0, 0, dimensions.width, dimensions.height);
+      ctx.drawImage(currentImage, 0, 0, dimensions.width, dimensions.height);
+    }
+  };
+
   const handleResize = () => {
     if (!images.current[0] || !canvasRef.current) return;
-  
+
     const windowWidth = window.innerWidth;
     const imageAspectRatio = images.current[0].width / images.current[0].height;
-    let width, height;
-  
-    // Set width to full window width
-    width = windowWidth;
-    height = width / imageAspectRatio; // Adjust height to maintain aspect ratio
-  
-    // Ensure height doesn't exceed window height (optional, if you want to cap it)
+    let width = windowWidth;
+    let height = width / imageAspectRatio;
+
     const windowHeight = window.innerHeight;
     if (height > windowHeight) {
       height = windowHeight;
       width = height * imageAspectRatio;
     }
-  
+
     setDimensions({ width, height });
-  
     canvasRef.current.width = width;
     canvasRef.current.height = height;
-    const ctx = canvasRef.current.getContext("2d");
-    const currentImage = images.current[currentFrame];
-  
-    if (ctx && currentImage) {
-      ctx.clearRect(0, 0, width, height);
-      ctx.drawImage(currentImage, 0, 0, width, height);
-    }
+
+    // Draw the current frame immediately after resizing
+    updateCanvas(currentFrame);
   };
 
-  // Preload images
+  // Preload images and initialize canvas
   useEffect(() => {
     let loadedCount = 0;
 
@@ -64,34 +68,27 @@ export default function HowItWorksPage() {
       const loadImage = (src: string): Promise<HTMLImageElement> => {
         return new Promise((resolve, reject) => {
           const img = new Image();
-          img.onload = () => resolve(img);
+          img.onload = () => {
+            loadedCount++;
+            setLoadingProgress((loadedCount / totalFrames) * 100);
+            resolve(img);
+          };
           img.onerror = reject;
           img.src = src;
         });
       };
 
       try {
-        const firstFrame = await loadImage(framePaths[0]);
-        images.current[0] = firstFrame;
-        loadedCount++;
-        setLoadingProgress((loadedCount / totalFrames) * 100);
-
-        if (canvasRef.current) {
-          const ctx = canvasRef.current.getContext("2d");
-          ctx?.drawImage(firstFrame, 0, 0, firstFrame.width, firstFrame.height);
-        }
-
-        for (let i = 1; i < framePaths.length; i++) {
-          const img = await loadImage(framePaths[i]);
-          images.current[i] = img;
-          loadedCount++;
-          setLoadingProgress((loadedCount / totalFrames) * 100);
-        }
-
+        const loadedImages = await Promise.all(framePaths.map(loadImage));
+        images.current = loadedImages;
         setIsLoading(false);
-        handleResize();
+
+        // Set initial dimensions and draw the first frame
+        handleResize(); // This ensures the canvas is sized and the first frame is drawn
+        setCurrentFrame(0); // Explicitly set to first frame
+        updateCanvas(0); // Draw the first frame immediately
       } catch (error) {
-        console.error("Error loading frames:", error);
+        console.error("Error preloading frames:", error);
       }
     };
 
@@ -101,7 +98,7 @@ export default function HowItWorksPage() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Handle scroll for both frame scrubbing and parallax effects
+  // Handle scroll for frame scrubbing and parallax effects
   useEffect(() => {
     if (!containerRef.current || isLoading) return;
 
@@ -114,17 +111,17 @@ export default function HowItWorksPage() {
       const containerTop = containerRect.top + scrollTop;
       const containerHeight = containerRect.height;
 
-      // Calculate progress for frame scrubbing
+      // Frame scrubbing progress
       const frameProgress = (scrollTop - containerTop) / (containerHeight - window.innerHeight);
       const frameIndex = Math.min(
         Math.max(0, Math.floor(frameProgress * (totalFrames - 1))),
         totalFrames - 1
       );
 
-      // Calculate progress for scale and parallax (similar to original HowItWorksPage)
+      // Parallax progress
       const windowHeight = window.innerHeight;
       const startPoint = windowHeight / 2;
-      const endPoint = startPoint - 550; // Scroll range from original
+      const endPoint = startPoint - 550;
       const elementTop = containerRect.top;
       let parallaxProgress = 0;
 
@@ -137,13 +134,7 @@ export default function HowItWorksPage() {
       setScrollProgress(Math.max(0, Math.min(parallaxProgress, 1)));
       if (frameIndex !== currentFrame) {
         setCurrentFrame(frameIndex);
-        const ctx = canvasRef.current.getContext("2d");
-        const currentImage = images.current[frameIndex];
-
-        if (ctx && currentImage) {
-          ctx.clearRect(0, 0, dimensions.width, dimensions.height);
-          ctx.drawImage(currentImage, 0, 0, dimensions.width, dimensions.height);
-        }
+        updateCanvas(frameIndex);
       }
     };
 
@@ -151,26 +142,25 @@ export default function HowItWorksPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isLoading, dimensions, currentFrame]);
 
-  // Calculate dynamic styles based on scroll progress
+  // Dynamic styles
   const radius = initialRadius + (finalRadius - initialRadius) * scrollProgress;
   const scale = initialScale + (finalScale - initialScale) * scrollProgress;
   const padding = initialPadding + (finalPadding - initialPadding) * scrollProgress;
 
   return (
-    <main className="min-h-[120vh] bg-white">
-      <div className="container mx-auto px-24 pt-20">
-        <div className="max-w-[1000px]">
-          <h2 className="text-[21px] text-gray-600 font-medium mb-2">
+    <main className="min-h-[80vh] bg-white ">
+      <div className=" mx-auto px-24 pt-20 ">
+        <div className="max-w-[1000px] ">
+          <h2 className="text-[21px] text-gray-600 font-medium">
             So easy to use
           </h2>
           <h1 className="text-[48px] leading-[1.1] font-semibold tracking-[-0.003em] md:text-[80px] md:leading-[1.05] md:tracking-[-0.015em]">
             Read, Mark, Send
           </h1>
         </div>
-
       </div>
 
-      <div ref={containerRef} className="relative h-[300vh]">
+      <div ref={containerRef} className="relative h-[250vh]">
         <div className="sticky top-0 w-full h-screen flex items-center justify-center bg-white">
           <div
             style={{

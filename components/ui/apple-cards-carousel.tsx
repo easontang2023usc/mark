@@ -30,7 +30,7 @@ export const Carousel = ({ items }: CarouselProps) => {
     <CarouselContext.Provider value={{ onCardClose: () => {}, currentIndex: 0 }}>
       <div className="relative w-full overflow-hidden">
         <div className="flex w-full overflow-x-scroll overscroll-x-auto py-10 md:py-20 scroll-smooth [scrollbar-width:none]">
-          <div className="flex flex-row justify-start gap-4 pl-4 max-w-full">
+          <div className="flex flex-row justify-start gap-4 pl-48 max-w-full"> {/* Reduced gap from 4 to 2, aligned with px-8 */}
             {items.map((item, index) => (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -43,13 +43,13 @@ export const Carousel = ({ items }: CarouselProps) => {
             ))}
           </div>
         </div>
-        <div className="flex justify-end gap-2 mr-10">
-          <button className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50">
+        <div className="flex justify-end gap-2 pr-48"> {/* Changed mr-10 to pr-8 for consistency */}
+          {/* <button className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50">
             <IconArrowNarrowLeft className="h-6 w-6 text-gray-500" />
           </button>
           <button className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50">
             <IconArrowNarrowRight className="h-6 w-6 text-gray-500" />
-          </button>
+          </button> */}
         </div>
       </div>
     </CarouselContext.Provider>

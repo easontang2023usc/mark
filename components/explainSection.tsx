@@ -60,7 +60,7 @@ export default function CameraFeature() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto min-h-[55vh]">
+    <div className="max-w-4xl mx-auto min-h-[40vh]">
       <div className="flex flex-col md:flex-row gap-6 items-center">
         {/* Left side text */}
         <div className="w-full z-20 md:w-1/2 text-gray-800 space-y-4 text-xl">
@@ -80,7 +80,7 @@ export default function CameraFeature() {
         {/* Right side: video above, button below */}
         <div className="w-full md:w-1/2 flex flex-col items-center gap-4">
           {/* Video container */}
-          <div className="relative w-full md:w-[600px] aspect-[16/9] rounded-lg overflow-hidden">
+          <div className="relative w-full md:w-[600px] aspect-[16/9] rounded-lg overflow-hidden pl-10">
             <video
               ref={videoRef}
               className="relative z-0 w-full h-full object-cover"

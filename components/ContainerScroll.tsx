@@ -2,7 +2,7 @@
 import React, { useRef, useState } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 import DockTabs from "@/components/ui/DockTabs";
-import Typography from "./Typography";
+import Typography from "./ui/Typography";
 
 export const ContainerScroll = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -26,25 +26,13 @@ export const ContainerScroll = () => {
 
   return (
     <div
-      className="h-[60rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20"
+      className="h-[60rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20 "
       ref={containerRef}
     >
       <div className="py-10 md:py-40 w-full relative max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          {/* Text Section */}
-          <motion.div
-            style={{ translateY: translate }}
-            className="text-left max-w-md"
-          >
-            <Typography variant="h1">Synced directly to your devices</Typography>
-            <Typography variant="body1" className="text-neutral-500 mt-5">Grow on the go</Typography>
-            <Typography variant="body2" className="text-neutral-400 mt-3">
-              {tabDescriptions[activeTab] || ""}
-            </Typography>
-          </motion.div>
-
           {/* iPhone and Tabs Container */}
-          <div className="flex flex-col items-center gap-1" style={{ perspective: "1000px" }}>
+          <div className="flex flex-col items-center gap-4" style={{ perspective: "1000px" }}>
             {/* iPhone Container */}
             <motion.div
               style={{
@@ -67,6 +55,17 @@ export const ContainerScroll = () => {
               <DockTabs activeTab={activeTab} setActiveTab={setActiveTab} insideIphone={false} />
             </div>
           </div>
+           {/* Text Section */}
+           <motion.div
+            style={{ translateY: translate }}
+            className="text-left max-w-md"
+          >
+            <Typography variant="body1">Synced directly to your devices</Typography>
+            <Typography variant="h3" className="textneut">
+              {tabDescriptions[activeTab] || ""}
+            </Typography>
+          </motion.div>
+
         </div>
       </div>
     </div>
