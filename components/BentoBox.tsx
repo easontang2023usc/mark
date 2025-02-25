@@ -3,7 +3,6 @@
 import React from "react";
 import { Carousel, Card } from "@/components/ui/apple-cards-carousel";
 import Typography from "@/components/ui/Typography";
-import Image from 'next/image';
 
 // Define the Feature type
 interface Feature {
