@@ -129,25 +129,39 @@ export default function Footer() {
               <Typography variant="body2">Instagram</Typography>
             </Link>
 
-               {/* Credits - same for both mobile and desktop */}
-              <div className="flex justify-end">
-                <Typography variant="body2" className="text-gray-500 font-normal">
-                  Created by <a href="https://x.com/EasonTang23" className="font-bold">Eason Tang</a> and <a href="https://x.com/Henryyinn" className="font-bold">Henry Yin</a>
-                </Typography>
-              </div>
+            {/* Credits - for mobile only */}
+            <div className="flex justify-end">
+              <Typography variant="body2" className="text-gray-500 font-normal">
+                Created by <a href="https://x.com/EasonTang23" className="font-bold">Eason Tang</a> and <a href="https://x.com/Henryyinn" className="font-bold">Henry Yin</a>
+              </Typography>
+            </div>
 
-                {/* Location - same for both mobile and desktop */}
-              <div className="flex justify-end">
-                <Typography variant="body2" className="text-gray-500 font-normal">
-                  Designed in Los Angeles, California
-                </Typography>
-              </div>
+            {/* Location - for mobile only */}
+            <div className="flex justify-end">
+              <Typography variant="body2" className="text-gray-500 font-normal">
+                Designed in Los Angeles, California
+              </Typography>
+            </div>
           </div>
         )}
 
-     
+        {/* Credits - for desktop only */}
+        {!isMobile && (
+          <div className="flex justify-end">
+            <Typography variant="body2" className="text-gray-500 font-normal">
+              Created by <a href="https://x.com/EasonTang23" className="font-bold">Eason Tang</a> and <a href="https://x.com/Henryyinn" className="font-bold">Henry Yin</a>
+            </Typography>
+          </div>
+        )}
 
-      
+        {/* Location - for desktop only */}
+        {!isMobile && (
+          <div className="flex justify-end">
+            <Typography variant="body2" className="text-gray-500 font-normal">
+              Designed in Los Angeles, California
+            </Typography>
+          </div>
+        )}
       </div>
 
       <div className="footer-hover-text my-2">
