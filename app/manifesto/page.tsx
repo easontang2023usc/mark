@@ -10,7 +10,7 @@ export default function Manifesto() {
   
   // Animation parameters
   const initialWidth = 800; // max-w-4xl (768px)
-  const finalWidth = 860;  // max-w-7xl (1280px)
+  const finalWidth = 820;  // max-w-7xl (1280px)
   const initialRadius = 14;
   const finalRadius = 16;
   const initialPadding = 15;
