@@ -55,7 +55,7 @@ export default function Manifesto() {
   const currentPadding = isExpanded ? finalPadding : initialPadding;
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans antialiased mt-12">
+    <div className="min-h-screen bg-white text-gray-900 font-satoshi antialiased mt-12">
       <Head>
         <title>Mark | Unlock Your Intellectual Potential</title>
         <meta name="description" content="Mark - The AI-Enhanced Bookmark for print books" />
@@ -91,11 +91,11 @@ export default function Manifesto() {
           <section className="border-b border-gray-100 pb-12">
             <h2 className="text-2xl font-semibold mb-8">The World's Knowledge at Your Fingertips</h2>
             <p className="text-lg text-gray-700">
-              The world holds centuries of brilliance—<strong>Einstein's physics, Nietzsche's philosophy, Jobs' innovation.</strong> 
+              The world holds centuries of brilliance—<strong>Einstein's physics, Nietzsche's philosophy, Jobs' innovation. </strong> 
               Visionaries spend lifetimes refining ideas, making breakthroughs, and distilling their wisdom into books.
             </p>
             <p className="text-lg text-gray-700 mt-6">
-              Yet instead of tapping into this gift, most people are <strong>stuck in the endless scroll.</strong> 
+              Yet instead of tapping into this gift, most people are <strong>stuck in the endless scroll. </strong> 
               Imagine the innovations that could happen—or worse, the ones that won't—if we continue prioritizing fleeting content over deep knowledge.
             </p>
           </section>
@@ -154,11 +154,11 @@ export default function Manifesto() {
               <ul className="list-disc space-y-4 text-lg mt-6 ml-6">
                 <li><strong>Intelligent Summaries</strong>. Instantly generates insights from what you just read, customized to highlight key themes, quotes, and stats.</li>
                 <li><strong>A Connected Reading Community</strong>. Discuss ideas and stay motivated, just like Strava—but for books.</li>
-                <li><strong>Personalized Data & Tracking</strong>. Monitor reading pace, progress, and trends. Get <strong>Mark Wrapped</strong>—a yearly recap of everything you've learned.</li>
+                <li><strong>Personalized Data & Tracking</strong>. Monitor reading pace, progress, and trends. Get Mark Wrapped—a yearly recap of everything you've learned.</li>
               </ul>
 
               <p className="text-lg mt-8">
-                Crafted from <strong>Grade 5 titanium</strong> and inspired by <strong>Bauhaus design</strong>, Mark seamlessly fits into your pages.  
+                Crafted from <strong>Grade 5 titanium</strong> and inspired by Bauhaus design, Mark seamlessly fits into your pages.  
                 It's a <strong>statement of elegance, intelligence, and status.</strong>
               </p>
             </div>
@@ -183,15 +183,18 @@ export default function Manifesto() {
           </section>
 
           {/* Call to Action */}
-          <section className="text-center">
-            <h2 className="text-2xl font-semibold mb-8">Join the Movement</h2>
-            <p className="text-lg text-gray-700">
-              Let's build the future of reading together.
-            </p>
-            <div className="mt-6">
-              <WaitlistDialog />
-            </div>
-          </section>
+          {/* Call to Action */}
+          <section className="border-b border-gray-100 pb-12 text-center">
+  <h2 className="text-2xl font-semibold mb-8">Join the Movement</h2>
+  <p className="text-lg text-gray-700">
+    Let's build the future of reading together.
+  </p>
+  <div className="mt-8">
+    <WaitlistDialog />
+  </div>
+</section>
+          
+
         </div>
       </main>
     </div>
