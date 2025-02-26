@@ -45,7 +45,7 @@ const DockTabs = ({
         alt={activeTab}
         width={500}
         height={500}
-        className="max-w-[112%] mt-3 relative z-10"
+        className="max-w-[112%] -mt-3 relative z-10"
         priority
       />
       <Typography 

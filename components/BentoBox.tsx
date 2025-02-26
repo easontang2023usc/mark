@@ -23,18 +23,18 @@ const features: Feature[] = [
   {
     category: "",
     title: "Titanium Grade 5",
-    description: "Same material as Boeing 777.",
+    description: "The same material used in the Boeing 777",
     src: "/Mark_Assets/titanium.jpg",
   },
   {
     category: "",
-    title: "Gamifying Reading",
+    title: "Gamify Reading",
     description: "Data and friends motivate you to keep learning.",
     src: "/Mark_Assets/social.jpg",
   },
   {
     category: "",
-    title: "Design That Just Works",
+    title: "Beautiful Design",
     description: "So sleek, it becomes part of the lifestyle.",
     src: "/Mark_Assets/premium.jpg",
   },
