@@ -22,7 +22,7 @@ export function WaitlistDialog() {
         <DialogHeader>
           <DialogTitle className="text-4xl font-bold">Join the Waitlist</DialogTitle>
           <p className="text-gray-600">
-            We&apos;re excited to learn more about what you&apos;re reading! Join our waitlist to stay updated.
+            Be the first batch of users to experience Mark. Let&apos;s build the future of reading together.
           </p>
         </DialogHeader>
         <WaitlistForm onSuccess={() => setIsOpen(false)} />
