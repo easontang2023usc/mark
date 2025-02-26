@@ -64,7 +64,7 @@ export default function Manifesto() {
 
       {/* Video Header - Wider than Text Section */}
       <div className="flex justify-center w-full">
-        <div className="relative w-full max-w-7xl h-[300px] sm:h-[400px] mt-[] mb-0 overflow-hidden rounded-xl">
+        <div className="relative w-full max-w-7xl h-[300px] sm:h-[400px] mt-[3%] mb-0 overflow-hidden rounded-xl">
           <video 
             className="w-full h-full object-cover"
             autoPlay 
