@@ -1,14 +1,12 @@
-'use client'
-// pages/manifesto.js
+'use client';
 import Head from 'next/head';
 import WaitlistDialog from '@/components/waitlistForm';
 
 export default function Manifesto() {
-
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans antialiased mt-12">
       <Head>
-        <title>Mark | Unlock your Intellectual Potential</title>
+        <title>Mark | Unlock Your Intellectual Potential</title>
         <meta name="description" content="Mark - The AI-Enhanced Bookmark for print books" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -16,179 +14,113 @@ export default function Manifesto() {
       <main className="max-w-3xl mx-auto px-4 py-16 sm:py-24">
         {/* Logo + Tagline */}
         <div className="text-center mb-20">
-          <h1 className="text-4xl font-bold mb-4">Mark</h1>
-          <p className="text-2xl text-gray-600 font-light">Unlock your Intellectual Potential</p>
+          <h1 className="text-4xl font-bold mb-4">Manifesto</h1>
+          {/* <p className="text-2xl text-gray-600 font-light">Mark</p> */}
         </div>
 
         {/* Manifesto Content */}
         <div className="space-y-12">
-          {/* The Problem */}
-          <section className="border-b border-gray-100 pb-12">
-            <h2 className="text-2xl font-semibold mb-8">The Problem</h2>
-            <ul className="space-y-5">
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  <strong>65%</strong> of U.S. adults still prefer physical books, yet few tools exist to help them retain information.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  Readers forget up to <strong>70%</strong> of new insights in a single day without reinforcement.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  Current digital solutions disrupt focus, forcing manual logs on distracting devices.
-                </span>
-              </li>
-            </ul>
-          </section>
 
-          {/* Our Goal */}
+          {/* Initial Storytelling */}
           <section className="border-b border-gray-100 pb-12">
-            <h2 className="text-2xl font-semibold mb-8">Our Goal</h2>
-            <ul className="space-y-5">
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  <strong>Shatter the power law</strong> of innovation by empowering more readers to become active creators.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  Turn <strong>print reading</strong> into a smarter, more connected experience.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  <strong>Elevate knowledge retention</strong> for a future shaped by lifelong learners.
-                </span>
-              </li>
-            </ul>
-          </section>
-
-          {/* The Key */}
-          <section className="border-b border-gray-100 pb-12">
-            <h2 className="text-2xl font-semibold mb-8">The Key</h2>
-            <ul className="space-y-5">
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  Reading <strong>sparks curiosity</strong> and <strong>cultivates growth</strong>&mdash;but only if you remember what you&apos;ve learned.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  <strong>Mark</strong> seamlessly unites physical books with AI-driven recall, eliminating friction and forgetfulness.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  A <strong>community-powered</strong> ecosystem inspires accountability, much like &ldquo;Strava for books.&rdquo;
-                </span>
-              </li>
-            </ul>
-          </section>
-
-          {/* How We Do It */}
-          <section className="border-b border-gray-100 pb-12">
-            <h2 className="text-2xl font-semibold mb-8">How We Do It</h2>
-            <ul className="space-y-5">
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  <strong>AI-Enhanced Bookmark</strong>: Automatically captures and summarizes key points from every page you read.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  <strong>Spaced Repetition</strong>: Reinforces critical insights to combat the forgetting curve.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  <strong>Beautiful, Aspirational Design</strong>: A sleek statement piece—where tech meets timeless craftsmanship.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  <strong>Data-Driven Community</strong>: Track progress, compare with friends, and stay motivated to finish more books.
-                </span>
-              </li>
-            </ul>
-          </section>
-
-          {/* Why It Matters */}
-          <section className="border-b border-gray-100 pb-12">
-            <h2 className="text-2xl font-semibold mb-8">Why It Matters</h2>
-            <ul className="space-y-5">
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  In 2023, <strong>757+ million</strong> print books sold in the U.S.—proof that physical reading endures.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  <strong>AI hardware</strong> is booming, projected to reach <strong>$1,047.1B</strong> by 2033, reflecting demand for smarter daily tools.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  More readers retaining more knowledge means <strong>more ideas</strong>—and more <strong>world-changing innovation</strong>.
-                </span>
-              </li>
-            </ul>
-          </section>
-
-          {/* Join Us */}
-          <section className="border-b border-gray-100 pb-12">
-            <h2 className="text-2xl font-semibold mb-8">Join Us</h2>
-            <ul className="space-y-5">
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  <strong>Reclaim</strong> your autonomy in an age of digital distraction.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  <strong>Expand</strong> your mind and <strong>solidify</strong> what you learn.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-gray-400">•</span>
-                <span>
-                  <strong>Shape</strong> your future—and ours—by unlocking the true power of reading.
-                </span>
-              </li>
-            </ul>
-          </section>
-
-          {/* Final Statement */}
-          <section className="py-8">
-            <p className="text-xl font-medium">
-              <strong>Mark</strong> is here to <strong>redefine</strong> what reading can be: a blend of timeless print, cutting-edge AI, and a community that keeps you turning pages.
+            <h2 className="text-2xl font-semibold mb-8">The World’s Knowledge at Your Fingertips</h2>
+            <p className="text-lg text-gray-700">
+              The world holds centuries of brilliance—<strong>Einstein’s physics, Nietzsche’s philosophy, Jobs’ innovation. </strong> 
+               Visionaries spend lifetimes refining ideas, making breakthroughs, and distilling their wisdom into books.
+            </p>
+            <p className="text-lg text-gray-700 mt-6">
+              Yet instead of tapping into this gift, most people are <strong>stuck in the endless scroll. </strong> 
+              Imagine the innovations that could happen—or worse, the ones that won’t—if we continue prioritizing fleeting content over deep knowledge.
             </p>
           </section>
-        </div>
 
-        {/* CTA */}
-        <div className="mt-20 text-center">
-          <WaitlistDialog/>
+          {/* Current World of Books */}
+          <section className="border-b border-gray-100 pb-12">
+            <h2 className="text-2xl font-semibold mb-8">The State of Reading</h2>
+            
+            <p className="text-lg text-gray-700">
+              Big tech has tried to digitize reading—pushing eBooks and Kindles as the future. 
+              But screens fragment focus, and digital reading has never replaced the depth of physical books.
+            </p>
+
+            <ul className="list-disc ml-6 space-y-5 text-lg text-gray-700 mt-4">
+              <li><strong>65% of Americans still prefer print</strong>—the texture, the weight of a book, the immersive experience.</li>
+              <li>In <strong>2023, over 757 million print books</strong> were sold in the U.S.—a testament to the enduring power of physical reading.</li>
+            </ul>
+
+            <p className="text-lg text-gray-700 mt-4">
+              Yet, while print remains king, it lacks what digital tools offer: <strong>engagement, accessibility, and efficiency.</strong>
+            </p>
+          </section>
+
+          {/* Introducing Mark */}
+          <section className="border-b border-gray-100 pb-12 text-center">
+            <h2 className="text-2xl font-semibold mb-8">Introducing Mark</h2>
+            <p className="text-lg text-gray-700">
+              Readers want to get lost in books and absorb knowledge—not just passively consume words.
+            </p>
+            <p className="text-lg font-semibold text-gray-900 mt-6">
+              {/* <strong>Mark is the key to this shift.</strong>  */}
+              More than a product, Mark is an ecosystem designed to make reading engaging, seamless, and impactful.
+            </p>
+          </section>
+
+         {/* How Mark Works & Design */}
+<section className="border-b border-gray-100 pb-12">
+  <h2 className="text-2xl font-semibold mb-8 text-center">How Mark Works</h2>
+
+  <p className="text-lg text-gray-700 text-center">
+    With Mark, you read your physical book as usual.  
+    When you are done, simply slip Mark into your book, and it instantly syncs to your devices—unlocking a smarter way to engage with what you read.
+  </p>
+
+  <ul className="list-disc ml-6 space-y-5 text-lg text-gray-700 mt-6">
+    <li><strong>Intelligent Personalized Summaries</strong>.  
+      Instantly generates insights from what you just read, customized to highlight key themes, quotes, and stats.
+    </li>
+    <li><strong>A Connected Reading Community</strong>.  
+      Discuss ideas and stay motivated, just like Strava—but for books.
+    </li>
+    <li><strong>Personalized Data & Tracking</strong>.  
+      Monitor reading pace, progress, and trends.  
+      Get <strong>Mark Wrapped</strong>—a yearly recap of everything you’ve learned.
+    </li>
+  </ul>
+
+  <div className="text-center mt-10">
+    {/* <h3 className="text-xl font-semibold">Designed for Thinkers</h3> */}
+    <p className="text-lg text-gray-700 mt-4">
+      Crafted from <strong>Grade 5 titanium</strong> and inspired by <strong>Bauhaus design</strong>, Mark seamlessly fits into your pages.  
+      It’s a <strong>statement of elegance, intelligence, and status.</strong>
+    </p>
+  </div>
+</section>
+         
+
+          {/* Our Mission */}
+          <section className="border-b border-gray-100 pb-12 text-center">
+            <h2 className="text-2xl font-semibold mb-8">Our Mission</h2>
+            <p className="text-lg text-gray-700">
+              <strong>“To transform the reading experience and revolutionize how people absorb knowledge—making it more engaging, intuitive, and impactful.”</strong>
+            </p>
+            <p className="text-lg text-gray-700 mt-6">
+              By reshaping the way we read, we unlock intellectual potential and empower individuals to create meaningful change in the world.
+            </p>
+            <p className="text-xl font-semibold mt-6">
+              Learning is the key to a brighter tomorrow.
+            </p>
+          </section>
+
+          {/* Call to Action */}
+          <section className="text-center">
+            <h2 className="text-2xl font-semibold mb-8">Join the Movement</h2>
+            <p className="text-lg text-gray-700">
+              Let’s build the future of reading together.
+            </p>
+            <div className="mt-6">
+              <WaitlistDialog />
+            </div>
+          </section>
         </div>
       </main>
     </div>
