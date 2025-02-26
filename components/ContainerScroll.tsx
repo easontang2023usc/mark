@@ -73,7 +73,7 @@ export const ContainerScroll = () => {
             >
               <div
                 className={`absolute top-4 ${
-                  isMobile ? "w-20 h-7" : "md:top-5 md:w-24 md:h-8"
+                  isMobile ? "w-16 h-4" : "md:top-5 md:w-24 md:h-6"
                 } left-1/2 -translate-x-1/2 bg-black rounded-full shadow-md z-20`}
               />
               <div

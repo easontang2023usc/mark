@@ -31,7 +31,7 @@ export default function FinalJoinWaitlist() {
           alt="Summary Feature"
           width={1440} // Adjust based on your max-w-7xl (7xl = 80rem = 1280px typically, but tweak as needed)
           height={600} // Estimate based on your image’s aspect ratio
-          className="w-full max-w-7xl object-cover translate-x-0 sm:translate-x-2 md:translate-x-4 lg:translate-x-8 relative"
+          className="w-full max-w-7xl object-cover translate-x-4 sm:translate-x-2 md:translate-x-4 lg:translate-x-8 relative"
           quality={75} // Optional: Adjust quality for optimization (default is 75)
           priority={false} // Set to true if this is above-the-fold content
         />

@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Mark",
     description: "Unlock your intellectual Potential.",
-    images: ["https://mark.engineering/Mark_Assets/still8.png"],
+    images: ["https://mark.engineering/Mark_Assets/website_header.png"],
   },
   robots: "index, follow",
   icons: {

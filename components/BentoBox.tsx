@@ -23,7 +23,7 @@ const features: Feature[] = [
   {
     category: "",
     title: "Titanium Grade 5",
-    description: "The same material used in the Boeing 777",
+    description: "The same material used in the Boeing 777.",
     src: "/Mark_Assets/titanium.jpg",
   },
   {
