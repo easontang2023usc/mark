@@ -73,12 +73,12 @@ const StickyScrollDemo = () => {
       style={{ height: `${sectionHeight + 100}vh` }}
     >
       <div
-        className={`h-screen w-full flex items-center justify-start text-white bg-black pl-24 transition-opacity duration-300 ease-out ${
+        className={`h-screen w-full flex items-center justify-start text-white bg-black pl-24 transition-opacity duration-500 ease-out ${
           isSticky ? "sticky top-0 z-10" : "relative"
         }`}
         style={{
           transform: `scale(${scale})`,
-          transition: "transform 50ms ease-out, border-radius 50ms ease-out",
+          transition: "transform 300ms ease-out, border-radius 300ms ease-out",
           transformOrigin: "top center",
           borderRadius: `0 0 ${borderRadius}px ${borderRadius}px`
         }}
@@ -91,7 +91,7 @@ const StickyScrollDemo = () => {
             return (
               <motion.div
                 key={index}
-                className={`h-0.5 bg-white rounded-sm cursor-pointer transition-all duration-300 ease-in-out hover:bg-gray-300`}
+                className={`h-0.5 bg-white rounded-sm cursor-pointer transition-all duration-500 ease-in-out hover:bg-gray-300`}
                 style={{ 
                   width: isActive ? 64 : distance === 1 ? 40 : 32, 
                   opacity: isActive ? 1 : distance === 1 ? 0.6 : 0.3 
@@ -116,7 +116,7 @@ const StickyScrollDemo = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2, ease: "easeInOut" }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
             >
               {currentIndex === 3 ? (
                 <>
