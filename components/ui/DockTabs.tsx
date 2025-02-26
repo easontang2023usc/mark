@@ -9,18 +9,18 @@ const tabs = ["Summary", "Friends", "Games", "Data"];
 // Fixed image mapping with consistent casing and error handling
 const tabContent = {
   "Summary": { 
-    image: "/Mark_Assets/summary.jpg", 
-    fallbackImage: "/Mark_Assets/Data.jpg", // Fallback to working image
+    image: "/Mark_Assets/Summary.jpg", 
+    fallbackImage: "/Mark_Assets/Summary.jpg", // Fallback to working image
     text: "Review key takeaways from your latest reading." 
   },
   "Friends": { 
-    image: "/Mark_Assets/friends.jpg", 
-    fallbackImage: "/Mark_Assets/Data.jpg",
+    image: "/Mark_Assets/Friends.jpg", 
+    fallbackImage: "/Mark_Assets/Friends.jpg",
     text: "See what your friends are reading and share insights." 
   },
   "Games": { 
-    image: "/Mark_Assets/games.jpg", 
-    fallbackImage: "/Mark_Assets/Data.jpg",
+    image: "/Mark_Assets/Games.jpg", 
+    fallbackImage: "/Mark_Assets/Games.jpg",
     text: "Engage in interactive reading challenges and games." 
   },
   "Data": { 
