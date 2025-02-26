@@ -141,7 +141,7 @@ const Hero3D = () => {
           variant="h1"
           className="bg-gradient-to-b from-black to-gray-500 bg-clip-text text-transparent pb-5"
         >
-          Ready to remember everything?
+          The first AI bookmark for physical readers
         </Typography>
       </div>
 
