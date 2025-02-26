@@ -17,7 +17,7 @@ const features: Feature[] = [
   {
     category: "",
     title: "Learn Everything",
-    description: "Mark help you retain knowledge.",
+    description: "Mark helps you retain knowledge.",
     src: "/Mark_Assets/learning.jpg",
   },
   {
