@@ -64,7 +64,7 @@ const DesktopNavbar: FC = () => {
 
         {/* Navigation Links */}
         <div className="flex items-center gap-6">
-          <Link href="/manifesto" className="text-white font-medium uppercase hover:text-gray-200 transition-colors">
+          <Link href="/manifesto" className="text-white font-light uppercase hover:text-gray-200 transition-colors">
             Manifesto
           </Link>
           <WaitlistDialog />
@@ -179,7 +179,7 @@ const MobileNavbar: FC<MobileNavbarProps> = ({ menuOpen, toggleMenu, setMenuOpen
                   </Link>
                   <Link 
                     href="/manifesto" 
-                    className="text-white text-lg font-medium"
+                    className="text-white text-lg font-light"
                     onClick={() => setMenuOpen(false)}
                   >
                     Manifesto
