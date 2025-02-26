@@ -53,7 +53,7 @@ export function MobileWaitlist({ onSuccess }: MobileWaitlistProps) {
               </button>
             </div>
             <p className="text-gray-600 mb-6 text-[0.9rem] pb-4 text-left">
-                Be the first batch of users to experience Mark. Let's build the future of reading together.
+                Be the first batch of users to experience Mark. Let&apos;s build the future of reading together.
             </p>
             <MobileWaitlistForm 
               onSuccess={() => {
