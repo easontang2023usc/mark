@@ -6,6 +6,30 @@ import Image from "next/image";
 
 const tabs = ["Summary", "Friends", "Games", "Data"];
 
+// Fixed image mapping with consistent casing and error handling
+const tabContent = {
+  "Summary": { 
+    image: "/Mark_Assets/summary.jpg", 
+    fallbackImage: "/Mark_Assets/Data.jpg", // Fallback to working image
+    text: "Review key takeaways from your latest reading." 
+  },
+  "Friends": { 
+    image: "/Mark_Assets/friends.jpg", 
+    fallbackImage: "/Mark_Assets/Data.jpg",
+    text: "See what your friends are reading and share insights." 
+  },
+  "Games": { 
+    image: "/Mark_Assets/games.jpg", 
+    fallbackImage: "/Mark_Assets/Data.jpg",
+    text: "Engage in interactive reading challenges and games." 
+  },
+  "Data": { 
+    image: "/Mark_Assets/Data.jpg", 
+    fallbackImage: "/Mark_Assets/Data.jpg",
+    text: "Visualize your reading habits and track progress." 
+  }
+};
+
 const DockTabs = ({
   activeTab,
   setActiveTab,
@@ -15,22 +39,20 @@ const DockTabs = ({
   setActiveTab: (tab: string) => void;
   insideIphone?: boolean;
 }) => {
-  const renderContent = () => {
-    switch (activeTab) {
-      case "Summary":
-        return { image: "/Mark_Assets/summary.jpg", text: "Review key takeaways from your latest reading." };
-      case "Friends":
-        return { image: "/Mark_Assets/friends.jpg", text: "See what your friends are reading and share insights." };
-      case "Games":
-        return { image: "/Mark_Assets/games.jpg", text: "Engage in interactive reading challenges and games." };
-      case "Data":
-        return { image: "/Mark_Assets/Data.jpg", text: "Visualize your reading habits and track progress." };
-      default:
-        return {};
-    }
-  };
+  const [imgSrc, setImgSrc] = React.useState(
+    tabContent[activeTab as keyof typeof tabContent]?.image || ""
+  );
 
-  const content = renderContent();
+  // Reset image source when activeTab changes
+  React.useEffect(() => {
+    setImgSrc(tabContent[activeTab as keyof typeof tabContent]?.image || "");
+  }, [activeTab]);
+
+  // Handle image load error
+  const handleImageError = () => {
+    console.error(`Failed to load image for ${activeTab}`);
+    setImgSrc(tabContent[activeTab as keyof typeof tabContent]?.fallbackImage || "");
+  };
 
   return insideIphone ? (
     <motion.div
@@ -41,18 +63,19 @@ const DockTabs = ({
       transition={{ duration: 0.3 }}
     >
       <Image 
-        src={content.image || ''} 
+        src={imgSrc} 
         alt={activeTab}
         width={500}
         height={500}
         className="max-w-[112%] -mt-3 relative z-10"
         priority
+        onError={handleImageError}
       />
       <Typography 
         variant="body3" 
         className="mt-2 text-center px-4"
       >
-        {content.text}
+        {tabContent[activeTab as keyof typeof tabContent]?.text}
       </Typography>
     </motion.div>
   ) : (
