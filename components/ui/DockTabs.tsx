@@ -36,8 +36,8 @@ const DockTabs = ({
     <motion.div
       key={activeTab}
       className="w-full flex flex-col items-center justify-center relative"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
       <Image 
@@ -48,25 +48,24 @@ const DockTabs = ({
         className="max-w-[112%] mt-3 relative z-10"
         priority
       />
+      <Typography 
+        variant="body3" 
+        className="mt-2 text-center px-4"
+      >
+        {content.text}
+      </Typography>
     </motion.div>
   ) : (
-    <div className="mt-6 flex items-center justify-center bg-white p-3 rounded-full shadow-md relative">
+    <div className="mt-6 flex items-center justify-center bg-white p-3 rounded-full shadow-md">
       {tabs.map((tab) => (
         <button
           key={tab}
-          className={`relative flex items-center justify-center w-20 h-10 text-sm font-semibold transition-all ${
-            activeTab === tab ? "text-white" : "text-gray-600"
-          } hover:text-[#FB6839]`}
+          className={`w-20 h-10 text-sm font-semibold rounded-full ${
+            activeTab === tab ? "bg-[#FB6839] text-white" : "text-gray-600 hover:bg-gray-100"
+          } transition-colors duration-200`}
           onClick={() => setActiveTab(tab)}
         >
-          {activeTab === tab && (
-            <motion.div
-              layoutId="dockHighlight"
-              className="absolute inset-0 w-full h-full bg-[#FB6839] rounded-full"
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            />
-          )}
-          <Typography variant="body3" className="relative z-10">
+          <Typography variant="body3">
             {tab}
           </Typography>
         </button>

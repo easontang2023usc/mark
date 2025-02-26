@@ -38,6 +38,10 @@ const MobileHero = () => {
             Meet Mark 1 – a smart bookmark that tracks and summarizes your reading
           </Typography>
         </header>
+         {/* CTA */}
+        <footer className="mt-auto pb-4">
+          <MobileWaitlist />
+        </footer>
 
         {/* Image with gradient fade effect */}
         <div className="flex-1 flex items-center justify-center mb-6 px-2 relative">
@@ -58,10 +62,6 @@ const MobileHero = () => {
           </div>
         </div>
 
-        {/* CTA */}
-        <footer className="mt-auto pb-4">
-          <MobileWaitlist />
-        </footer>
       </div>
     </section>
   );
