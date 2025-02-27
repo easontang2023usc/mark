@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { supabase } from "@/lib/supabaseClient";
+import { track } from '@vercel/analytics';
+
+track('waitlist_click');
 
 interface WaitlistFormProps {
   onSuccess?: () => void;
@@ -14,7 +17,10 @@ export function WaitlistDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <button className="bg-[#FB6839] text-white px-5 py-2 rounded-full text-sm font-satoshi uppercase tracking-wide transition duration-300 hover:bg-[#D4502A]">
+        <button   
+        onClick={() => track('waitlist_click')}
+        className="bg-[#FB6839] text-white px-5 py-2 rounded-full text-sm font-satoshi uppercase tracking-wide transition duration-300 hover:bg-[#D4502A]"
+        >
           Join Waitlist
         </button>
       </DialogTrigger>

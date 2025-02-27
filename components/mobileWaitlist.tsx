@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
+import { track } from '@vercel/analytics';
+
+track('waitlist_click');
 
 interface MobileWaitlistProps {
   onSuccess?: () => void;
@@ -30,7 +33,11 @@ export function MobileWaitlist({ onSuccess }: MobileWaitlistProps) {
   return (
     <>
       <button 
-        onClick={() => setIsOpen(true)}
+      
+      onClick={() => {
+        setIsOpen(true);
+        track('waitlist_click');
+      }}
         className="w-full bg-[#FB6839] text-white px-5 py-3 rounded-full text-sm font-satoshi uppercase tracking-wide transition duration-300 hover:bg-[#D4502A]"
       >
         Join Waitlist
