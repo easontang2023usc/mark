@@ -3,6 +3,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import Typography from "@/components/ui/Typography";
 import Image from "next/image";
+import { track } from '@vercel/analytics';
+
+track('friends_phone_click');
 
 const tabs = ["Summary", "Friends", "Games", "Data"];
 
@@ -80,20 +83,23 @@ const DockTabs = ({
     </motion.div>
   ) : (
     <div className="mt-6 flex items-center justify-center bg-white p-3 rounded-full shadow-md">
-      {tabs.map((tab) => (
-        <button
-          key={tab}
-          className={`w-20 h-10 text-sm font-semibold rounded-full ${
-            activeTab === tab ? "bg-[#FB6839] text-white" : "text-gray-600 hover:bg-gray-100"
-          } transition-colors duration-200`}
-          onClick={() => setActiveTab(tab)}
-        >
-          <Typography variant="body3">
-            {tab}
-          </Typography>
-        </button>
-      ))}
-    </div>
+    {tabs.map((tab) => (
+      <button
+        key={tab}
+        className={`w-20 h-10 text-sm font-semibold rounded-full ${
+          activeTab === tab ? "bg-[#FB6839] text-white" : "text-gray-600 hover:bg-gray-100"
+        } transition-colors duration-200`}
+        onClick={() => {
+          setActiveTab(tab);
+          track('friends_phone_click');
+        }}
+      >
+        <Typography variant="body3">
+          {tab}
+        </Typography>
+      </button>
+    ))}
+  </div>
   );
 };
 

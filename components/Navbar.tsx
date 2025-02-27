@@ -8,6 +8,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import MobileWaitlist from "./mobileWaitlist";
 import Image from 'next/image';
+import { track } from '@vercel/analytics';
+
+track('manifesto_click');
 
 const Navbar: FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -64,7 +67,13 @@ const DesktopNavbar: FC = () => {
 
         {/* Navigation Links */}
         <div className="flex items-center gap-6">
-          <Link href="/manifesto" className="text-white font-light uppercase hover:text-gray-200 transition-colors">
+          <Link 
+
+          onClick={() => {
+            track('manifesto_click');
+          }}
+          
+          href="/manifesto" className="text-white font-light uppercase hover:text-gray-200 transition-colors">
             Manifesto
           </Link>
           <WaitlistDialog />
