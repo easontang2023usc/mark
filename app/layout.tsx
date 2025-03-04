@@ -83,6 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <meta name="Mark" content="Mark" />
       </head>
+      <script async type='text/javascript' src='https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=Y2SESt'></script>
       <body className="min-h-screen bg-background antialiased">
           <div className="relative flex min-h-screen flex-col">
             <Navbar />
